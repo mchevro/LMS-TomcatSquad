@@ -1,0 +1,43 @@
+{% include 'header.html' %}
+        <!-- BUTTON SIDEBARR -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom"> 
+                <button class="btn btn-primary" id="menu-toggle">Menu</button>
+			</nav>
+			<!-- CONTENT -->
+			<div class="container text-center" style="margin-top: 1%;">
+				<h1>THANKS TO</h1>
+				<div class="row">
+					{% for row in kontributor %}
+					<div class="col-sm-4">
+						<div class="card img-fluid" style="width: 340px;">
+							<img class="card-img-top" src="static/assets/img/{{row[1]}}" alt="Profile" style="width: 100%;">
+							<div class="card-body">
+								<h4 class="card-tittle">{{row[2]}}</h4>
+								<p class="card-text">{{row[3]}}</p>
+								<a href="https://instagram.com/{{row[4]}}" class="btn" style="color: #CB204E;">
+									<i class="fa fa-instagram" aria-hidden="true" style="font-size: 30px;"></i>
+								</a>
+								<a href="https://wa.me/{{row[5]}}" class="btn" style="color: #4BC658;">
+									<i class="fab fa-whatsapp" aria-hidden="true" style="font-size: 30px;"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+					{%endfor%}
+				</div>
+			</div>
+        </div>
+        <!-- Bootstrap core JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		    <!-- Menu Toggle Script -->
+			<script>
+				$("#menu-toggle").click(function(e) {
+					e.preventDefault();
+					$("#wrapper").toggleClass("toggled");
+					});
+			</script>
+</body>
+</html>

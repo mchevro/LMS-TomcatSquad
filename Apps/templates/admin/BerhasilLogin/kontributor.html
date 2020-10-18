@@ -1,0 +1,158 @@
+{% include 'header_admin.html' %}
+
+<div id="modaledit{{tambah}}" class="modal fade text-dark" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Kontributor</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <div class="modal-body text-dark">
+                <form action="{{url_for('add_kontributor')}}" method="POST">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        <label>Foto</label>
+                        <input type="hidden" name="id">
+                        <input type="file" class="form-control" name="foto" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" class="form-control" name="nama" maxlength="35" placeholder="Tomcat Squad" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Materi</label>
+                        <input type="text" class="form-control" name="materi" maxlength="100" placeholder="Cisco Packet Tracer" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="text" class="form-control" name="instagram" maxlength="20" placeholder="tomcatsquad_" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Whatsapp</label>
+                        <input type="text" class="form-control" name="whatsapp"  maxlength="16" placeholder="+62 12345678" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#Thumbnail">
+    <i class="fas fa-upload"></i> Upload Foto
+</button>
+
+<button class="btn btn-success" data-toggle="modal" data-target="#modaledit{{tambah}}">
+    <i class="fas fa-user-plus"></i> Kontributor
+</button>
+
+<div class="modal" id="Thumbnail">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h4 class="modal-title">Upload Foto </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <form action="{{url_for('upload_foto')}}" method="POST" enctype="multipart/form-data">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        <input type="file" class="form-control" name="Thumbnail" required>
+                        <small>JPEG, JPG, PNG | MAX: 3 MB</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped text-center">
+        <thead>
+            <tr>
+                <th class="th">No</th>
+                <th class="th">Foto</th>
+                <th class="th">Nama</th>
+                <th class="th">Materi</th>
+                <th class="th">Instagram</th>
+                <th class="th">Whatsapp</th>
+                <th class="th">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in kontributor %}
+            <tr>
+                <td>{{row[0]}}</td>
+                <td>
+                    <img src="../../../static/assets/img/{{row[1]}}" alt="Silahkan Upload Foto" width="150" height="150">
+                </td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td>{{row[4]}}</td>
+                <td>{{row[5]}}</td>
+                <td>
+                    <a href="/edit_kontribor/{{row.0}}" class="btn btn-primary btn-xs fa fa-pencil-square-o" data-toggle="modal" data-target="#modaledit{{row.0}}"></a>
+                    <a href="/delete_kontributor/{{row.0}}" class="btn btn-danger btn-xs fa fa-trash" onclick="return confirm('Apakah Yakin Mau Hapus Materi?')"></a>
+                </td>
+            </tr>
+
+            <div id="modaledit{{row.0}}" class="modal fade text-dark" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Kontributor</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body text-dark">
+                            <form action="{{url_for('edit_kontributor')}}" method="POST">
+                                {{ form.csrf_token }}
+                                <div class="form-group">
+                                    <label>Foto</label>
+                                    <input type="hidden" name="id" value="{{row.0}}">
+                                    <input type="file" class="form-control" name="foto" value="{{row.1}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="text" class="form-control" name="nama" maxlength="20" value="{{row.2}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Materi</label>
+                                    <input type="text" class="form-control" name="materi" maxlength="100" value="{{row.3}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Instagram</label>
+                                    <input type="text" class="form-control" name="instagram" value="{{row.4}}" placeholder="tomcatsquad_" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Whatsapp</label>
+                                    <input type="text" class="form-control" name="whatsapp" value="{{row.5}}" placeholder="+6212345678" required>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>

@@ -1,0 +1,153 @@
+<!--
+POWERED BY MCHEVRO
+INSTAGRAM : m.chevr0
+GITHUB : https://github.com/mchevro
+-->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>Tomcat Squad</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elearning Tomcat Squad">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="static/assets/css/style.css">
+    <link rel="icon" href="static/assets/img/tomcatlogo.png">
+    <link rel="shortcut icon" href="static/assets/img/tomcatlogo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-dark" style="background-color: #5891ff">
+        <a class="navbar-brand" href="https://elearning.tomcatsquad.web.id">
+            <img src="static/assets/img/tomcatlogo.png" width="40" height="40" class="d-inline-block align-top" alt="tomcatlogo">
+            Tomcat Squad
+        </a>
+    </nav>
+    <!-- LOGIN -->
+    <div class="registration-form">
+        <form action="{{url_for('login')}}" method="post">
+            {{ form.csrf_token }}
+            <div class="form-icon">
+                <span><i class="icon icon-user"></i></span>
+            </div>
+{% with messages = get_flashed_messages()%}
+{% if messages %}
+{%for message in messages%}
+<p class="text-center">{{message}}</p>
+{% endfor %}
+{%endif%}
+{% endwith %}
+            <div class="form-group">
+                <input type="text" class="form-control item" maxlength="10" name="username" id="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control item" maxlength="20" name="password" id="myInput" placeholder="Password" required>
+                <input type="checkbox" onclick="myFunction()"> Show Password
+            </div>
+            <div class="form-group msg">
+                <button type="submit" name="login" class="btn btn-block create-account">Login</button>
+            </div>
+            <!-- BUTTON MODAL -->
+            <button type="button" class="btn btn-block create-account" data-toggle="modal" data-target="#myModal">Register</button>
+        </form>
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Daftar</h4>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+					<form action="{{url_for('register')}}" method="POST">
+                        {{ form.csrf_token }}
+							<div class="form-group">
+                                <label for="nama">Nama Lengkap</label>
+                                <input type="text" maxlength="35" class="form-control" id="nama" placeholder="Tomcat Squad" name="nama" required>
+                                {% for error in form.nama.errors %}
+                                <small class="text-danger">{{ error }}</small>  
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" maxlength="50" class="form-control" id="email" placeholder="tomcat@tomcatsquad.com" name="email" required>
+                                {% for error in form.email.errors %}
+                                <small class="text-danger">{{ error }}</small>  
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" maxlength="10" class="form-control" id="username" placeholder="tomcatsq" name="username" required>
+                                {% for error in form.username.errors %}
+                                <small class="text-danger">{{ error }}</small>  
+                                {% endfor %}
+                            </div>
+							<div class="form-group">
+                                <label for="password">Kata Sandi</label>
+                                <input type="password" maxlength="20" class="form-control" id="myInput2" placeholder="**********" name="password" required>
+                                <input type="checkbox" onclick="myFunction2()"> Show Password
+                                {% for error in form.password.errors %}
+                                <small class="text-danger">{{ error }}</small>  
+                                {% endfor %}
+							</div>
+                            <button type="submit" name="register" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="social-media">
+            <h5>Social Media</h5>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/tomcatsquad_/"><i class="icon-social-instagram" title="instagram"></i></a>
+                <a href="#"><i class="icon-social-facebook" title="facebook"></i></a>
+                <a href="https://tomcatsquad.web.id"><i class="fa fa-globe" aria-hidden="true"></i></a>
+            </div>
+            <a href="https://tomcatsquad.web.id" class="forgot footer">
+                <p>&copy;TomcatSquad</p>
+            </a>
+        </div>
+    </div>
+
+    <!--JQUERY-->
+<script>
+function myFunction() {
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+<script>
+function myFunction2() {
+  var x = document.getElementById("myInput2");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

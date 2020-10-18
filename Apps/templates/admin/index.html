@@ -1,0 +1,84 @@
+<!--
+POWERED BY MCHEVRO
+INSTAGRAM : m.chevr0
+GITHUB : https://github.com/mchevro
+-->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>Tomcat Squad</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elearning Tomcat Squad">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="static/assets/css/style.css">
+    <link rel="icon" href="static/assets/img/tomcatlogo.png">
+    <link rel="shortcut icon" href="static/assets/img/tomcatlogo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-dark" style="background-color: #5891ff">
+        <a class="navbar-brand" href="https://elearning.tomcatsquad.web.id">
+            <img src="static/assets/img/tomcatlogo.png" width="40" height="40" class="d-inline-block align-top" alt="tomcatlogo">
+            Tomcat Squad
+        </a>
+    </nav>
+    <!-- LOGIN -->
+    <div class="registration-form">
+        <form action="{{url_for('login_admin')}}" method="post">
+            {{ form.csrf_token }}
+            <div class="form-icon">
+                <span><i class="fa fa-user-secret"></i></span>
+            </div>
+{% with messages = get_flashed_messages()%}
+{% if messages %}
+{%for message in messages%}
+<p class="text-center">{{message}}</p>
+{% endfor %}
+{%endif%}
+{% endwith %}
+            <div class="form-group">
+                <input type="text" class="form-control item" maxlength="10" name="username" id="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control item" maxlength="20" name="password" id="myInput" placeholder="Password" required>
+                <input type="checkbox" onclick="myFunction()"> Show Password
+            </div>
+            <div class="form-group msg">
+                <button type="submit" name="login" class="btn btn-block create-account">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <!--JQUERY-->
+<script>
+function myFunction() {
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+<script>
+function myFunction2() {
+  var x = document.getElementById("myInput2");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

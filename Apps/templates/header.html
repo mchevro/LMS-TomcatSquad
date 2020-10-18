@@ -1,0 +1,50 @@
+<!--
+POWERED BY MCHEVRO
+INSTAGRAM : m.chevr0
+GITHUB : https://github.com/mchevro
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elearning Tomcat Squad">
+    <meta charset="utf-8">
+    <title>Tomcat Squad</title>
+    <link rel="stylesheet" href="../static/assets/css/style.css">
+    <link rel="stylesheet" href="../static/assets/css/sidebar.css">
+    <link rel="icon" href="../static/assets/img/tomcatlogo.png">
+    <link rel="shortcut icon" href="../static/assets/img/tomcatlogo.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- FONT AWESOME 6 -->
+    <script src="https://kit.fontawesome.com/bc6d3d8101.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap">
+</head>
+<body>
+    <div class="d-flex" id="wrapper"> 
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">Tomcat Squad </div>
+            <div class="list-group list-group-flush">
+                <a href="{{(url_for('index_dashboard'))}}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard
+                </a>
+                <a href="{{(url_for('index_materi'))}}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-book" aria-hidden="true"></i> Materi
+                </a>
+                <a href="{{(url_for('index_kuis'))}}" class="list-group-item list-group-item-action bg-light">
+                    <i class="far fa-file-alt"></i> Kuis
+                </a>
+                <a href="{{(url_for('index_jurnal'))}}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-bookmark" aria-hidden="true"></i> Refrensi Jurnal
+                </a>
+                <a href="{{(url_for('index_kontributor'))}}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-users" aria-hidden="true"></i> Kontributor
+                </a>
+                <a href="{{(url_for('logout'))}}" class="list-group-item list-group-item-action bg-light">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+                </a>
+            </div>
+        </div>
