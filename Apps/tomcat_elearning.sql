@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Okt 2020 pada 13.29
+-- Waktu pembuatan: 18 Okt 2020 pada 15.51
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.3.21
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `tomcat_flask_elearning`
+-- Database: `testing`
 --
 
 -- --------------------------------------------------------
@@ -84,7 +84,7 @@ CREATE TABLE `kuis` (
 --
 
 INSERT INTO `kuis` (`id`, `thumbnail`, `materi`, `deskripsi`, `embed`, `jumlah`, `waktu`) VALUES
-(1, 'asj.jpg', 'Administrasi Sistem Jaringan', 'Latihan Linux', 'https://docs.google.com/forms/d/e/1FAIpQLSffrtKot8SJZ72IW4G8YTCjcSjktsZW9D6oNBZ1QnvYb5VSIg/viewform?embedded=true', 10, '2020-10-16');
+(1, 'tlj.png', 'Teknik Layanan Dan Jaringan', 'Latihan 1', 'https://docs.google.com/forms/d/e/1FAIpQLSffrtKot8SJZ72IW4G8YTCjcSjktsZW9D6oNBZ1QnvYb5VSIg/viewform?embedded=true', 10, '2020-10-16');
 
 -- --------------------------------------------------------
 
