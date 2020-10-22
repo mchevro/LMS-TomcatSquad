@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+Apps/PERCOBAAN.py
+Apps/templates/user/BerhasilLogin/jurnal.html
+Apps/log_akses.txt
+Apps/static/assets/img/TUGAS.png

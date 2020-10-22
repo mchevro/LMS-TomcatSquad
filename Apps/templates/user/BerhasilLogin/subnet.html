@@ -2,6 +2,7 @@
 POWERED BY MCHEVRO
 INSTAGRAM : m.chevr0
 GITHUB : https://github.com/mchevro
+API IP CALCULATOR : JODIES.DE
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -58,11 +59,68 @@ GITHUB : https://github.com/mchevro
 			</nav>
             <!-- CONTENT -->
             <div class="container">
-                {% for row in tutorial %}
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="{{row[4]}}" allowfullscreen></iframe>
-                </div>
-                {%endfor%}
+                <h1 class="text-center">IP CALCULATOR</h1>
+                <hr style="background-color: black;">
+                <h3 class="text-center">KELAS A</h3>
+                <form action="{{url_for('subnet_kelasA')}}" method="post">
+                    {{ form.csrf_token }}
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="ipaddress" placeholder="10.10.10.1" name="ipaddress" required>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="prefix" placeholder="8" max="15" name="prefix" required>
+                        </div>
+                    </div>
+{% with kelasA = get_flashed_messages(category_filter=["kelasA"])%}
+{% if kelasA %}
+{%for message in kelasA %}
+<p class="text-center">{{message}}</p>
+{% endfor %}
+{%endif%}
+{% endwith %}
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-calculator"></i></button>
+                </form> 
+                <h3 class="text-center">KELAS B</h3>
+                <form action="{{url_for('subnet_kelasB')}}" method="post">
+                    {{ form.csrf_token }}
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="ipaddress" placeholder="172.16.16.1" name="ipaddress" required>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="prefix" placeholder="16" max="23" name="prefix" required>
+                        </div>
+                    </div>
+{% with kelasB = get_flashed_messages(category_filter=["kelasB"])%}
+{% if kelasB %}
+{%for message in kelasB %}
+<p class="text-center">{{message}}</p>
+{% endfor %}
+{%endif%}
+{% endwith %}
+                    <button type="submit" class="btn btn-success"><i class="fas fa-calculator"></i></button>
+                </form> 
+                <h3 class="text-center">KELAS C</h3>
+                <form action="{{url_for('subnet_kelasC')}}" method="post">
+                    {{ form.csrf_token }}
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="ipaddress" placeholder="192.168.10.1" name="ipaddress" required>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" id="prefix" placeholder="24" max="31" name="prefix" required>
+                        </div>
+                    </div>
+{% with kelasC = get_flashed_messages(category_filter=["kelasC"])%}
+{% if kelasC %}
+{%for message in kelasC %}
+<p class="text-center">{{message}}</p>
+{% endfor %}
+{%endif%}
+{% endwith %}
+                    <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-calculator"></i></button>
+                </form> 
             </div>
         </div>
         <!-- Bootstrap core JavaScript -->

@@ -8,6 +8,9 @@ from werkzeug.utils import secure_filename
 import bcrypt
 import os
 import datetime
+import requests
+import bs4
+from bs4 import BeautifulSoup
 
 csrf = CSRFProtect()
 app = Flask(__name__)
@@ -465,6 +468,86 @@ def index_kuis2(m_id,judul):
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
+'''
+IP CALCULATOR
+'''
+def kelasA(i_ip, i_prefix):
+    r = requests.get(f'http://jodies.de/ipcalc?host={i_ip}&mask1={i_prefix}&mask2=')
+    soup = bs4.BeautifulSoup(r.text, 'html.parser')
+    result = soup.find('pre').text
+    ip = i_ip
+    subnetmask = (result[83:95]).replace('=','')
+    wildcard = (result[152:164])
+    prefix = (result[97:105])
+    return (f'IP Address : {ip}\nSubnetmask : {subnetmask}\nPrefix : {prefix}\nWildcard : {wildcard}')
+
+def kelasB(i_ip, i_prefix):
+    r = requests.get(f'http://jodies.de/ipcalc?host={i_ip}&mask1={i_prefix}&mask2=')
+    soup = bs4.BeautifulSoup(r.text, 'html.parser')
+    result = soup.find('pre').text
+    ip = i_ip
+    subnetmask = (result[83:97]).replace('=','')
+    wildcard = (result[152:164])
+    prefix = (result[97:105])
+    return (f'IP Address : {ip}\nSubnetmask : {subnetmask}\nPrefix : {prefix}\nWildcard : {wildcard}')
+
+def kelasC(i_ip, i_prefix):
+    r = requests.get(f'http://jodies.de/ipcalc?host={i_ip}&mask1={i_prefix}&mask2=')
+    soup = bs4.BeautifulSoup(r.text, 'html.parser')
+    result = soup.find('pre').text
+    ip = i_ip
+    subnetmask = (result[83:98]).replace('=','')
+    wildcard = (result[152:164])
+    prefix = i_prefix
+    return (f'IP Address : {ip}\nSubnetmask : {subnetmask}\nPrefix : {prefix}\nWildcard : {wildcard}')
+    
+@app.route('/tools')
+def index_tools():
+    if 'login' in session:
+        form = RegistrationForm()
+        return render_template('user/BerhasilLogin/subnet.html',form = form)
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
+
+@app.route('/subnet_kelasA', methods=['POST'])
+def subnet_kelasA():
+    if 'login' in session:
+        req_ip = request.form['ipaddress']
+        req_prefix = request.form['prefix']
+        result = kelasA(req_ip, req_prefix)
+        flash (f'{result}', 'kelasA')
+        return redirect(url_for('index_tools'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
+
+@app.route('/subnet_kelasB', methods=['POST'])
+def subnet_kelasB():
+    if 'login' in session:
+        req_ip = request.form['ipaddress']
+        req_prefix = request.form['prefix']
+        result = kelasB(req_ip, req_prefix)
+        flash (f'{result}', 'kelasB')
+        return redirect(url_for('index_tools'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
+
+@app.route('/subnet_kelasC', methods=['POST'])
+def subnet_kelasC():
+    if 'login' in session:
+        req_ip = request.form['ipaddress']
+        req_prefix = request.form['prefix']
+        result = kelasC(req_ip, req_prefix)
+        flash (f'{result}', 'kelasC')
+        return redirect(url_for('index_tools'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
+'''
+END IP CALCULATOR
+'''
 
 @app.route('/modul/<int:m_id>', methods = ['GET'])
 def index_modul(m_id):
