@@ -24,7 +24,7 @@ API IP CALCULATOR : JODIES.DE
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap">
 </head>
 <body>
-    <div class="d-flex" id="wrapper"> 
+    <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
             <div class="sidebar-heading">Tomcat Squad </div>
@@ -54,7 +54,7 @@ API IP CALCULATOR : JODIES.DE
         </div>
         <!-- BUTTON SIDEBARR -->
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom"> 
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                 <button class="btn btn-primary" id="menu-toggle">Menu</button>
 			</nav>
             <!-- CONTENT -->
@@ -79,8 +79,8 @@ API IP CALCULATOR : JODIES.DE
 {% endfor %}
 {%endif%}
 {% endwith %}
-                    <button type="submit" class="btn btn-danger"><i class="fas fa-calculator"></i></button>
-                </form> 
+                    <button type="submit" class="btn btn-danger" style="margin-top: 5px;" ><i class="fas fa-calculator"></i></button>
+                </form>
                 <h3 class="text-center">KELAS B</h3>
                 <form action="{{url_for('subnet_kelasB')}}" method="post">
                     {{ form.csrf_token }}
@@ -99,8 +99,8 @@ API IP CALCULATOR : JODIES.DE
 {% endfor %}
 {%endif%}
 {% endwith %}
-                    <button type="submit" class="btn btn-success"><i class="fas fa-calculator"></i></button>
-                </form> 
+                    <button type="submit" class="btn btn-success" style="margin-top: 5px;" ><i class="fas fa-calculator"></i></button>
+                </form>
                 <h3 class="text-center">KELAS C</h3>
                 <form action="{{url_for('subnet_kelasC')}}" method="post">
                     {{ form.csrf_token }}
@@ -119,14 +119,36 @@ API IP CALCULATOR : JODIES.DE
 {% endfor %}
 {%endif%}
 {% endwith %}
-                    <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-calculator"></i></button>
-                </form> 
+                    <button type="submit" class="btn btn-primary" style="margin-top: 5px;" ><i class="fas fa-calculator"></i></button>
+                </form>
+                <table class="table table-sm text-center" style="margin-top: 10px;">
+                  <thead>
+                    <tr>
+                      <th scope="col">KELAS</th>
+                      <th scope="col">IP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">A</th>
+                      <td>1 - 126</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">B</th>
+                      <td>128 - 191</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">C</th>
+                      <td>192 - 223</td>
+                    </tr>
+                  </tbody>
+                </table>
             </div>
         </div>
         <!-- Bootstrap core JavaScript -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		    <!-- Menu Toggle Script -->
 			<script>
 				$("#menu-toggle").click(function(e) {
