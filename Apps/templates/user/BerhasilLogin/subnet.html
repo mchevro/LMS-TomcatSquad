@@ -121,30 +121,169 @@ API IP CALCULATOR : JODIES.DE
 {% endwith %}
                     <button type="submit" class="btn btn-primary" style="margin-top: 5px;" ><i class="fas fa-calculator"></i></button>
                 </form>
-                <table class="table table-sm text-center" style="margin-top: 10px;">
-                  <thead>
-                    <tr>
-                      <th scope="col">KELAS</th>
-                      <th scope="col">IP</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">A</th>
-                      <td>1 - 126</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">B</th>
-                      <td>128 - 191</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">C</th>
-                      <td>192 - 223</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <!-- Button to Open the Modal -->
+                <div class="text-right">
+                    <button type="button" class="btn" style="background-color: #45b2b6; color: #ffffff;" data-toggle="modal" data-target="#myModal">
+                        <i class="fas fa-question-circle"></i> info
+                    </button>
+                </div>
+                <!-- The Modal -->
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Table IP</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <table class="table table-bordered table-sm text-center">
+                                    <thead>
+                                        <th colspan="2">RANGE IP</th>
+                                        <tr>
+                                            <th scope="col">KELAS</th>
+                                            <th scope="col">IP ADDRESS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">A</th>
+                                            <td>1 - 126</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">B</th>
+                                            <td>128 - 191</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">C</th>
+                                            <td>192 - 223</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-bordered table-sm text-center" style="margin-top: 15px;">
+                                    <thead>
+                                        <th colspan="2">TABLE SUBNET</th>
+                                        <tr>
+                                            <th scope="col">PREFIX</th>
+                                            <th scope="col">NETMASK</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="2">KELAS A</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/8</th>
+                                            <td>255.0.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/9</th>
+                                            <td>255.128.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/10</th>
+                                            <td>255.192.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/11</th>
+                                            <td>255.224.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/12</th>
+                                            <td>255.240.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/13</th>
+                                            <td>255.248.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/14</th>
+                                            <td>255.252.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/15</th>
+                                            <td>255.254.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2">KELAS B</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/16</th>
+                                            <td>255.255.0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/17</th>
+                                            <td>255.255.128.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/18</th>
+                                            <td>255.255.192.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/19</th>
+                                            <td>255.255.224.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/20</th>
+                                            <td>255.255.240.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/21</th>
+                                            <td>255.255.248.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/22</th>
+                                            <td>255.255.252.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/23</th>
+                                            <td>255.255.254.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2">KELAS C</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/24</th>
+                                            <td>255.255.255.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/25</th>
+                                            <td>255.255.255.128</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/26</th>
+                                            <td>255.255.255.192</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/27</th>
+                                            <td>255.255.255.224</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/28</th>
+                                            <td>255.255.255.240</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/29</th>
+                                            <td>255.255.255.248</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">/30</th>
+                                            <td>255.255.255.252</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                             </div>
+                             <!-- Modal footer -->
+                             <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center">&#169;TomcatSquad</p>
+                </div>
             </div>
-        </div>
         <!-- Bootstrap core JavaScript -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
