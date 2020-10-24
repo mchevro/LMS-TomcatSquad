@@ -128,7 +128,7 @@ def edit_materi():
             data_deskripsi = request.form['deskripsi']
             data_youtube = request.form['youtube']
             data_modul = request.form['modul']
-            data_waktu = request.form['waktu']
+            data_waktu = datetime.datetime.now()
             conn = mysql.connection
             cur = conn.cursor()
             cur.execute("UPDATE materi SET thumbnail=%s, judul=%s, deskripsi=%s, youtube=%s,  modul=%s,waktu=%s WHERE id=%s", (data_thumbnail, data_judul, data_deskripsi, data_youtube, data_modul,data_waktu, data_id))
@@ -147,7 +147,7 @@ def add_materi():
             data_deskripsi = request.form['deskripsi']
             data_youtube = request.form['youtube']
             data_modul = request.form['modul']
-            data_waktu = request.form['waktu']
+            data_waktu = datetime.datetime.now()
             conn = mysql.connection
             cur = conn.cursor()
             cur.execute("INSERT INTO materi (thumbnail, judul, deskripsi, youtube, modul, waktu) VALUES (%s,%s,%s,%s,%s,%s)", (data_thumbnail, data_judul, data_deskripsi, data_youtube, data_modul, data_waktu))
@@ -164,7 +164,7 @@ def edit_notifikasi():
             data_id = request.form['id']
             data_judul = request.form['judul']
             data_link = request.form['link']
-            data_waktu = request.form['waktu']
+            data_waktu = datetime.datetime.now()
             conn = mysql.connection
             cur = conn.cursor()
             cur.execute("UPDATE notifikasi SET judul=%s, link=%s, jam=%s WHERE id=%s", (data_judul, data_link, data_waktu, data_id))
@@ -198,7 +198,7 @@ def edit_kuis():
             data_deskripsi = request.form['deskripsi']
             data_embed = request.form['embed']
             data_soal = request.form['jumlah']
-            data_waktu = request.form['waktu']
+            data_waktu = datetime.datetime.now()
             conn = mysql.connection
             cur = conn.cursor()
             cur.execute("UPDATE kuis SET thumbnail=%s, materi=%s, deskripsi=%s, embed=%s,  jumlah=%s, waktu=%s WHERE id=%s", (data_thumbnail, data_materi, data_deskripsi, data_embed, data_soal, data_waktu, data_id))
@@ -217,7 +217,7 @@ def add_kuis():
             data_deskripsi = request.form['deskripsi']
             data_embed = request.form['embed']
             data_soal = request.form['jumlah']
-            data_waktu = request.form['waktu']
+            data_waktu = datetime.datetime.now()
             conn = mysql.connection
             cur = conn.cursor()
             cur.execute("INSERT INTO kuis (thumbnail, materi, deskripsi, embed, jumlah, waktu) VALUES (%s,%s,%s,%s,%s,%s)", (data_thumbnail, data_materi, data_deskripsi, data_embed, data_soal, data_waktu))
