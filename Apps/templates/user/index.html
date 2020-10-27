@@ -20,8 +20,38 @@ GITHUB : https://github.com/mchevro
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style type="text/css">
+        .preloader {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 9999;
+          background-color: #fff;
+        }
+        .preloader .loading {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+          font: 14px arial;
+        }
+        </style><script>
+        $(document).ready(function(){
+          $(".preloader").fadeOut();
+        })
+        </script>
 </head>
 <body>
+    <div class="preloader">
+        <div class="loading">
+          <img src="static/assets/css/loader.gif" width="80">
+          <p>Harap Tunggu</p>
+        </div>
+      </div>
+  
     <!-- NAVBAR -->
     <nav class="navbar navbar-dark" style="background-color: #5891ff">
         <a class="navbar-brand" href="https://elearning.tomcatsquad.web.id">
@@ -146,7 +176,6 @@ function myFunction2() {
   }
 }
 </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 
