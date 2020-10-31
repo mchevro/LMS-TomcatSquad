@@ -2,7 +2,6 @@
 POWERED BY MCHEVRO
 INSTAGRAM : m.chevr0
 GITHUB : https://github.com/mchevro
-API IP CALCULATOR : JODIES.DE
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -55,75 +54,35 @@ API IP CALCULATOR : JODIES.DE
         <!-- BUTTON SIDEBARR -->
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <button class="btn btn-primary" id="menu-toggle">Menu</button>
+                <i class="fas fa-bars" style="font-size: 25px;" id="menu-toggle"></i>
 			</nav>
             <!-- CONTENT -->
             <div class="container">
                 <h1 class="text-center">IP CALCULATOR</h1>
                 <hr style="background-color: black;">
-                <h3 class="text-center">KELAS A</h3>
-                <form action="{{url_for('subnet_kelasA')}}" method="post">
+                <form action="{{url_for('subnet')}}" method="post">
                     {{ form.csrf_token }}
                     <div class="form-row">
                         <div class="col">
+                            <label for="ipaddress">IP ADDRESS</label>
                             <input type="text" class="form-control" id="ipaddress" placeholder="10.10.10.1" name="ipaddress" required>
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" id="prefix" placeholder="8" max="15" name="prefix" required>
+                            <label for="ipaddress">PREFIX</label>
+                            <input type="number" class="form-control" id="prefix" placeholder="8" min="8" max="30" name="prefix" required>
                         </div>
                     </div>
-{% with kelasA = get_flashed_messages(category_filter=["kelasA"])%}
-{% if kelasA %}
-{%for message in kelasA %}
+{% with subnet = get_flashed_messages(category_filter=["subnet"])%}
+{% if subnet %}
+{%for message in subnet %}
 <p class="text-center">{{message}}</p>
 {% endfor %}
 {%endif%}
 {% endwith %}
-                    <button type="submit" class="btn btn-danger" style="margin-top: 5px;" ><i class="fas fa-calculator"></i></button>
-                </form>
-                <h3 class="text-center">KELAS B</h3>
-                <form action="{{url_for('subnet_kelasB')}}" method="post">
-                    {{ form.csrf_token }}
-                    <div class="form-row">
-                        <div class="col">
-                            <input type="text" class="form-control" id="ipaddress" placeholder="172.16.16.1" name="ipaddress" required>
-                        </div>
-                        <div class="col">
-                            <input type="number" class="form-control" id="prefix" placeholder="16" max="23" name="prefix" required>
-                        </div>
-                    </div>
-{% with kelasB = get_flashed_messages(category_filter=["kelasB"])%}
-{% if kelasB %}
-{%for message in kelasB %}
-<p class="text-center">{{message}}</p>
-{% endfor %}
-{%endif%}
-{% endwith %}
-                    <button type="submit" class="btn btn-success" style="margin-top: 5px;" ><i class="fas fa-calculator"></i></button>
-                </form>
-                <h3 class="text-center">KELAS C</h3>
-                <form action="{{url_for('subnet_kelasC')}}" method="post">
-                    {{ form.csrf_token }}
-                    <div class="form-row">
-                        <div class="col">
-                            <input type="text" class="form-control" id="ipaddress" placeholder="192.168.10.1" name="ipaddress" required>
-                        </div>
-                        <div class="col">
-                            <input type="number" class="form-control" id="prefix" placeholder="24" max="31" name="prefix" required>
-                        </div>
-                    </div>
-{% with kelasC = get_flashed_messages(category_filter=["kelasC"])%}
-{% if kelasC %}
-{%for message in kelasC %}
-<p class="text-center">{{message}}</p>
-{% endfor %}
-{%endif%}
-{% endwith %}
-                    <button type="submit" class="btn btn-primary" style="margin-top: 5px;" ><i class="fas fa-calculator"></i></button>
-                </form>
+                    <button type="submit" class="btn" style="margin-top: 5px; background-color: #9d4d91; color: #ffffff;" ><i class="fas fa-calculator"></i></button>
                 <!-- Button to Open the Modal -->
                 <div class="text-right">
-                    <button type="button" class="btn" style="background-color: #45b2b6; color: #ffffff;" data-toggle="modal" data-target="#myModal">
+                    <button type="button" class="btn" style="background-color: #db5f5f; color: #ffffff;" data-toggle="modal" data-target="#myModal">
                         <i class="fas fa-question-circle"></i> info
                     </button>
                 </div>

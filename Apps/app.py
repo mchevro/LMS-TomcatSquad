@@ -90,7 +90,7 @@ def index_admin_dashboard():
     if 'admin' in session:
         conn = mysql.connection
         cur = conn.cursor()
-        cur.execute("SELECT nama, email FROM user ORDER BY nama ASC")
+        cur.execute("SELECT nis, nama, kelas FROM user ORDER BY kelas ASC")
         result = cur.fetchall()
         nama = session['nama']
         form = RegistrationForm()
@@ -335,7 +335,6 @@ def delete_materi(data_id):
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
     
-
 '''
 U S E R
 '''
@@ -346,60 +345,29 @@ def index():
 
 @app.route('/login', methods = ['POST'])
 def login():
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        username = request.form['username']
-        password = request.form['password'].encode('utf-8')
+    if request.method == 'POST' and 'nis' in request.form:
+        user_nis = request.form['nis']
         cur = mysql.new_cursor(dictionary=True)
-        cur.execute("SELECT * FROM user WHERE username=%s", (username,))
+        cur.execute("SELECT * FROM user WHERE nis=%s" %(user_nis))
         account = cur.fetchone()
         if account:
-            if bcrypt.hashpw(password, account["password"].encode('utf-8')) == account["password"].encode('utf-8'):
-                session['login'] = True
-                session['id'] = account['id']
-                session['username'] = account['username']
-                session['nama'] = account['nama']
-                return redirect(url_for('index_dashboard'))
-            else:
-                flash('Password Salah')
-                return redirect(url_for('index'))
+            session['login'] = True
+            session['id'] = account['id']
+            session['nis'] = account['nis']
+            session['nama'] = account['nama']
+            return redirect(url_for('index_dashboard'))
         else:
-            flash('User Tidak Terdaftar')
+            flash('Nomor Induk Siswa Tidak Ada')
             return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
     session.pop('login', None)
     session.pop('id', None)
-    session.pop('username', None)
+    session.pop('nis', None)
     session.pop('nama', None)
     flash('Anda Telah Keluar', 'logout')
     return redirect(url_for('index')) 
-
-@app.route('/register', methods = ['POST'])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        full_name = request.form['nama']
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        #SMTP
-        msg = Message('Register Elearning Tomcat Squad', sender='USER_EMAIL',
-                                    recipients=[f'{email}'])
-        msg.body = f'Hallo {full_name},\n\nBerikut kami informasikan user akses anda di Portal LMS Tomcat Squad https://elearning.tomcatsquad.web.id\n\nUsername : {username}\nPassword  : {password}\n\nAnda bisa langsung mengunjungi Portal https://elearning.tomcatsquad.web.id kemudian masuk dengan username dan password tersebut.\n\nSekian informasi dari kami, jika ada masalah saat masuk bisa hubungi 0813 8166 2912\n\nTerima Kasih :)'
-        mail.send(msg)
-        #END SMTP
-        password_mysql = password.encode('utf-8')
-        hash_password = bcrypt.hashpw(password_mysql, bcrypt.gensalt())
-        conn = mysql.connection
-        cur = conn.cursor()
-        cur.execute("INSERT INTO user (nama, email, username, password) VALUES (%s,%s,%s,%s)",(full_name,email,username,hash_password))
-        conn.commit()
-        flash('Register Berhasil, Silahkan Cek Email')
-        return redirect(url_for('index'))
-    else:
-        flash('Data Tidak Lengkap')
-        return redirect(url_for('index'))
 
 @app.route('/dashboard')
 def index_dashboard():
@@ -471,36 +439,6 @@ def index_kuis2(m_id,judul):
 '''
 IP CALCULATOR
 '''
-def kelasA(i_ip, i_prefix):
-    r = requests.get(f'http://jodies.de/ipcalc?host={i_ip}&mask1={i_prefix}&mask2=')
-    soup = bs4.BeautifulSoup(r.text, 'html.parser')
-    result = soup.find('pre').text
-    ip = i_ip
-    subnetmask = (result[83:95]).replace('=','')
-    wildcard = (result[152:164])
-    prefix = (result[97:105])
-    return (f'IP Address : {ip}\nSubnetmask : {subnetmask}\nPrefix : {prefix}\nWildcard : {wildcard}')
-
-def kelasB(i_ip, i_prefix):
-    r = requests.get(f'http://jodies.de/ipcalc?host={i_ip}&mask1={i_prefix}&mask2=')
-    soup = bs4.BeautifulSoup(r.text, 'html.parser')
-    result = soup.find('pre').text
-    ip = i_ip
-    subnetmask = (result[83:97]).replace('=','')
-    wildcard = (result[152:164])
-    prefix = (result[97:105])
-    return (f'IP Address : {ip}\nSubnetmask : {subnetmask}\nPrefix : {prefix}\nWildcard : {wildcard}')
-
-def kelasC(i_ip, i_prefix):
-    r = requests.get(f'http://jodies.de/ipcalc?host={i_ip}&mask1={i_prefix}&mask2=')
-    soup = bs4.BeautifulSoup(r.text, 'html.parser')
-    result = soup.find('pre').text
-    ip = i_ip
-    subnetmask = (result[83:98]).replace('=','')
-    wildcard = (result[152:164])
-    prefix = i_prefix
-    return (f'IP Address : {ip}\nSubnetmask : {subnetmask}\nPrefix : {prefix}\nWildcard : {wildcard}')
-    
 @app.route('/tools')
 def index_tools():
     if 'login' in session:
@@ -510,38 +448,104 @@ def index_tools():
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
 
-@app.route('/subnet_kelasA', methods=['POST'])
-def subnet_kelasA():
+@app.route('/subnet', methods=['POST'])
+def subnet():
     if 'login' in session:
         req_ip = request.form['ipaddress']
         req_prefix = request.form['prefix']
-        result = kelasA(req_ip, req_prefix)
-        flash (f'{result}', 'kelasA')
-        return redirect(url_for('index_tools'))
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
+        if req_prefix == '8':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.0.0.0 Wildcard : 0.255.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
 
-@app.route('/subnet_kelasB', methods=['POST'])
-def subnet_kelasB():
-    if 'login' in session:
-        req_ip = request.form['ipaddress']
-        req_prefix = request.form['prefix']
-        result = kelasB(req_ip, req_prefix)
-        flash (f'{result}', 'kelasB')
-        return redirect(url_for('index_tools'))
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
+        elif req_prefix == '9':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.128.0.0 Wildcard : 0.127.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
 
-@app.route('/subnet_kelasC', methods=['POST'])
-def subnet_kelasC():
-    if 'login' in session:
-        req_ip = request.form['ipaddress']
-        req_prefix = request.form['prefix']
-        result = kelasC(req_ip, req_prefix)
-        flash (f'{result}', 'kelasC')
-        return redirect(url_for('index_tools'))
+        elif req_prefix == '10':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.192.0.0 Wildcard : 0.63.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '11':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.224.0.0 Wildcard : 0.31.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '12':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.240.0.0 Wildcard : 0.15.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '13':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.248.0.0 Wildcard : 0.7.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '14':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.252.0.0 Wildcard : 0.3.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '15':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.254.0.0 Wildcard : 0.1.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '16':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.0.0 Wildcard : 0.0.255.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '17':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.128.0 Wildcard : 0.0.127.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '18':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.192.0 Wildcard : 0.0.63.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '19':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.224.0 Wildcard : 0.0.31.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '20':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.240.0 Wildcard : 0.0.15.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '21':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.248.0 Wildcard : 0.0.7.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '22':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.252.0 Wildcard : 0.0.3.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '23':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.254.0 Wildcard : 0.0.1.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '24':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.0 Wildcard : 0.0.0.255', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '25':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.128 Wildcard : 0.0.0.127', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '26':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.192 Wildcard : 0.0.0.63', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '27':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.224 Wildcard : 0.0.0.31', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '28':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.240 Wildcard : 0.0.0.15', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '29':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.248 Wildcard : 0.0.0.7', 'subnet' )
+            return redirect(url_for('index_tools'))
+
+        elif req_prefix == '30':
+            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.252 Wildcard : 0.0.0.3', 'subnet' )
+            return redirect(url_for('index_tools'))
+        else:
+            abort(404)
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
