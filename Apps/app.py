@@ -8,9 +8,6 @@ from werkzeug.utils import secure_filename
 import bcrypt
 import os
 import datetime
-import requests
-import bs4
-from bs4 import BeautifulSoup
 
 csrf = CSRFProtect()
 app = Flask(__name__)
