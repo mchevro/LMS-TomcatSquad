@@ -28,39 +28,55 @@
 				<ul class="list-group list-group-horizontal text-center">
 					<li class="list-group-item"><a href="https://api.whatsapp.com/send?phone=+6281381662912&text=Hallo%20Kak,%20Saya%20Mau%20Bergabung%20Jadi%20Kontributor" class="btn" style="background-color: rgb(177, 169, 104); color: azure;"><i class="fa fa-user-plus" aria-hidden="true"></i> Kontributor</a></li>
 					<li class="list-group-item"><a href="https://api.whatsapp.com/send?phone=+6281381662912&text=Hallo%20Kak,%20Saya%20Mau%20Tanya%20Tentang%20%0aJudul%20:%20%0APertanyaan%20:" class="btn" style="background-color: rgb(77, 187, 132); color: azure;"><i class="fa fa-comments" aria-hidden="true"></i> Pertanyaan&ensp;</a></li>
-					<li class="list-group-item"><a href="https://bit.ly/M1K4S4" class="btn" style="background-color: rgb(71, 185, 161); color: azure;"><i class="fas fa-download"></i></i> Download&ensp;&ensp;</a></li>
-					<li class="list-group-item"><button type="button" class="btn" style="background-color: rgb(59, 157, 196); color: azure;" data-toggle="modal" data-target="#materi"><i class="fas fa-question-circle"></i> Jadwal&ensp;&ensp;&ensp;&ensp;&ensp;</a></button></li>
-				</ul> 
+					<li class="list-group-item"><button type="button" class="btn" style="background-color: rgb(126, 165, 180); color: azure;" data-toggle="modal" data-target="#download"><i class="fas fa-download"></i> Download&ensp;&ensp;</a></button></li>
+				</ul>
 			</div>
-			<!-- MODAL MATERI -->
-			<div class="modal fade" id="materi">
+			<div class="modal fade" id="download">
 				<div class="modal-dialog">
-					<div class="modal-content">
-						<!-- HEADER MATERI -->
+					<div class="modal-content bg-dark text-white">
+						<!-- HEADER DOWNLOAD-->
 						<div class="modal-header">
-							<h4 class="modal-title">Jadwal Update Materi</h4>
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Download</h4>
+							<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
 						</div>
-						<!-- BODY MATERI -->
+						<!-- BODY DOWNLOAD-->
 						<div class="modal-body">
-							<table class="table table-bordered text-center">
-								<thead>
-									<tr>
-									  <th>Hari</th>
-									  <th>Jam</th>
-									</tr>
-								  </thead>
-								  <tbody>
-									<tr>
-									  <td>Rabu</td>
-									  <td>21:00 WIB</td>
-									</tr>
-									<tr>
-									  <td>Sabtu</td>
-									  <td>21:00 WIB</td>
-									</tr>
-								  </tbody>
-							</table>
+							<div class="card-deck">
+								<div class="card-body text-center">
+									<a href="https://mega.nz/folder/BjhzxDyJ#LmwYC4XVERySJtcSSx3d7A" class="btn btn-outline-light" style="background-color: #35b76e; color: azure;">
+										<i class="fas fa-folder-open" aria-hidden="true"></i> 
+										Repository Utama
+									</a>
+								</div>
+								<div class="card-body text-center">
+									<a href="https://drive.google.com/file/d/1VTYD_X8g4MYc3hCcpF3SeAAHyFKWJL9C/view?usp=sharing" class="btn btn-outline-light" style="background-color: #8ab34f; color: azure;">
+										<i class="fas fa-compact-disc" aria-hidden="true"></i> 
+										ISO
+									</a>
+								</div>
+								<div class="card-body text-center">
+									<a href="https://mega.nz/folder/BjhzxDyJ#LmwYC4XVERySJtcSSx3d7A/folder/cjhGWb5R" class="btn btn-outline-light" style="background-color: #c43b3b; color: azure;">
+										<i class="fas fa-code" aria-hidden="true"></i> 
+										Script Tutorial
+									</a>
+								</div>
+								<div class="card-body text-center">
+									<a href="https://drive.google.com/drive/folders/1Rs0XRQ41i0ivgzhCz_vFjDSXhgmRZPhP?usp=sharing" class="btn btn-outline-light" style="background-color: #609984; color: azure;">
+										<i class="fas fa-book" aria-hidden="true"></i> 
+										Modul LKS 2017-2019
+									</a>
+								</div>
+								<div class="card-body text-center">
+									<a href="https://drive.google.com/drive/folders/1E8Op2WTq5-V9sp99naBXU7a7Xy1D7zPk?usp=sharing" class="btn btn-outline-light" style="background-color: #179fa4; color: azure;">
+										<i class="fas fa-folder-open" aria-hidden="true"></i> 
+										Mikrokontroler Project
+									</a>
+								</div>
+							</div> 
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<p>&#169;TomcatSquad</p>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -70,12 +86,12 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		    <!-- Menu Toggle Script -->
-			<script>
-				$("#menu-toggle").click(function(e) {
-					e.preventDefault();
-					$("#wrapper").toggleClass("toggled");
-					});
-			</script>
-</body>
+		<!-- Menu Toggle Script -->
+		<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+			});
+		</script>
+	</body>
 </html>
