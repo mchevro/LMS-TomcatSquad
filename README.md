@@ -11,7 +11,7 @@
 - Lihat Materi
 - Kerjakan Kuis Google Form
 - Lihat Kontributor
-- Lihat Refrensi Jurnal (On Progress)
+- Lihat Refrensi Jurnal
 <br> ![demo2](https://user-images.githubusercontent.com/67460437/96371103-538f6e80-118a-11eb-933e-8ecab4cd58a7.gif)
 
 # Fitur Admin
