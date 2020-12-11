@@ -4,7 +4,7 @@
 3. ke file **app.py** sesuaikan user mysql, directory, dan mail server
 4. jalankan file **app.py**
 5. buka *127.0.0.1:5000*
-6. register untuk masuk sebagai user
+6. login dengan nis untuk masuk sebagai user
 7. Selesai
 
 # Fitur User
