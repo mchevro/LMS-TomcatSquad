@@ -10,7 +10,7 @@
             </div>
             
             <div class="modal-body text-dark">
-                <form action="{{url_for('add_kontributor')}}" method="POST">
+                <form action="{{url_for('add_kontributor')}}" method="POST" enctype="multipart/form-data">
                     {{ form.csrf_token }}
                     <div class="form-group">
                         <label>Foto</label>
@@ -42,36 +42,10 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-info" data-toggle="modal" data-target="#Thumbnail">
-    <i class="fas fa-upload"></i> Upload Foto
-</button>
 
 <button class="btn btn-success" data-toggle="modal" data-target="#modaledit{{tambah}}">
     <i class="fas fa-user-plus"></i> Kontributor
 </button>
-
-<div class="modal" id="Thumbnail">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            
-            <div class="modal-header">
-                <h4 class="modal-title">Upload Foto </h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <div class="modal-body">
-                <form action="{{url_for('upload_foto')}}" method="POST" enctype="multipart/form-data">
-                    {{ form.csrf_token }}
-                    <div class="form-group">
-                        <input type="file" class="form-control" name="Thumbnail" required>
-                        <small>JPEG, JPG, PNG | MAX: 3 MB</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped text-center">
@@ -114,11 +88,7 @@
                             <form action="{{url_for('edit_kontributor')}}" method="POST">
                                 {{ form.csrf_token }}
                                 <div class="form-group">
-                                    <label>Foto</label>
                                     <input type="hidden" name="id" value="{{row.0}}">
-                                    <input type="file" class="form-control" name="foto" value="{{row.1}}" required>
-                                </div>
-                                <div class="form-group">
                                     <label>Nama</label>
                                     <input type="text" class="form-control" name="nama" maxlength="20" value="{{row.2}}" required>
                                 </div>

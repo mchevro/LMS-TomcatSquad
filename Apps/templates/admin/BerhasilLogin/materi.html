@@ -10,11 +10,10 @@
             </div>
             
             <div class="modal-body text-dark">
-                <form action="{{url_for('add_materi')}}" method="POST">
+                <form action="{{url_for('add_materi')}}" method="POST" enctype="multipart/form-data">
                     {{ form.csrf_token }}
                     <div class="form-group">
                         <label>Thubmnail</label>
-                        <input type="hidden" name="id">
                         <input type="file" class="form-control" name="thumbnail" required>
                     </div>
                     <div class="form-group">
@@ -74,10 +73,6 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-info" data-toggle="modal" data-target="#Thumbnail">
-    <i class="fas fa-upload"></i> Upload Foto
-</button>
-
 <button class="btn btn-success" data-toggle="modal" data-target="#modaledit{{tambah}}">
     <i class="fas fa-newspaper"></i> Tambah Materi
 </button>
@@ -85,29 +80,6 @@
 <button class="btn btn-warning" data-toggle="modal" data-target="#Notifikasi">
     <i class="fas fa-exclamation"></i> Notifikasi
 </button>
-
-<div class="modal" id="Thumbnail">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            
-            <div class="modal-header">
-                <h4 class="modal-title">Upload Thumbnail </h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <div class="modal-body">
-                <form action="{{url_for('upload_foto')}}" method="POST" enctype="multipart/form-data">
-                    {{ form.csrf_token }}
-                    <div class="form-group">
-                        <input type="file" class="form-control" name="Thumbnail" required>
-                        <small>JPEG, JPG, PNG | MAX: 3 MB</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped text-center">
@@ -152,11 +124,7 @@
                             <form action="{{url_for('edit_materi')}}" method="POST">
                                 {{ form.csrf_token }}
                                 <div class="form-group">
-                                    <label>Thubmnail</label>
                                     <input type="hidden" name="id" value="{{row.0}}">
-                                    <input type="file" class="form-control" name="thumbnail" value="{{row.1}}" required>
-                                </div>
-                                <div class="form-group">
                                     <label>Judul</label>
                                     <input type="text" class="form-control" name="judul" maxlength="50" value="{{row.2}}" required>
                                 </div>

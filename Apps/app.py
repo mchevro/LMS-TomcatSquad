@@ -2,10 +2,8 @@ from flask import (Flask, redirect, url_for, request,
                     render_template, abort, session, flash)
 from flask_mysql_connector import MySQL
 from flask_wtf.csrf import CSRFProtect
-from flask_mail import Mail, Message
 from static.TOKEN import RegistrationForm
 from werkzeug.utils import secure_filename
-import bcrypt
 import os
 import datetime
 
@@ -21,6 +19,9 @@ UPLOAD GAMBAR
 UPLOAD_THUMBNAIL = 'static/assets/img/'                 #SESUAIKAN DENGAN DIRECTORY HOSTING
 ALLOWED_EXTENSIONS = set(['jpeg', 'png', 'jpg'])
 app.config['UPLOAD_THUMBNAIL'] = UPLOAD_THUMBNAIL
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 '''
 DATABASE MYSQL
@@ -31,20 +32,6 @@ app.config['MYSQL_USER']        = 'root'
 app.config['MYSQL_PASSWORD']    = ''
 app.config['MYSQL_DATABASE']    = 'tomcat_flask_elearning'
 mysql = MySQL(app)
-
-
-'''
-MAIL KONFIGURASI
-'''
-#SMTP Konfigurasi
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'USER_EMAIL'
-app.config['MAIL_PASSWORD'] = 'PASSWORD_USER'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-mail = Mail(app)
-
 
 '''
 A D M I N
@@ -120,7 +107,6 @@ def edit_materi():
     if 'admin' in session:
         if request.method == 'POST':
             data_id = request.form['id']
-            data_thumbnail = request.form['thumbnail']
             data_judul = request.form['judul']
             data_deskripsi = request.form['deskripsi']
             data_youtube = request.form['youtube']
@@ -128,7 +114,7 @@ def edit_materi():
             data_waktu = datetime.datetime.now()
             conn = mysql.connection
             cur = conn.cursor()
-            cur.execute("UPDATE materi SET thumbnail=%s, judul=%s, deskripsi=%s, youtube=%s,  modul=%s,waktu=%s WHERE id=%s", (data_thumbnail, data_judul, data_deskripsi, data_youtube, data_modul,data_waktu, data_id))
+            cur.execute("UPDATE materi SET judul=%s, deskripsi=%s, youtube=%s,  modul=%s,waktu=%s WHERE id=%s", (data_judul, data_deskripsi, data_youtube, data_modul,data_waktu, data_id))
             conn.commit()
             return redirect(url_for('index_admin_materi'))
     else:
@@ -139,17 +125,23 @@ def edit_materi():
 def add_materi():
     if 'admin' in session:
         if request.method == 'POST':
-            data_thumbnail = request.form['thumbnail']
+            data_thumbnail = request.files['thumbnail']
             data_judul = request.form['judul']
             data_deskripsi = request.form['deskripsi']
             data_youtube = request.form['youtube']
             data_modul = request.form['modul']
             data_waktu = datetime.datetime.now()
-            conn = mysql.connection
-            cur = conn.cursor()
-            cur.execute("INSERT INTO materi (thumbnail, judul, deskripsi, youtube, modul, waktu) VALUES (%s,%s,%s,%s,%s,%s)", (data_thumbnail, data_judul, data_deskripsi, data_youtube, data_modul, data_waktu))
-            conn.commit()
-            return redirect(url_for('index_admin_materi'))
+            if data_thumbnail and allowed_file(data_thumbnail.filename):
+                try:
+                    filename = data_thumbnail.filename
+                    data_thumbnail.save(os.path.join(app.config['UPLOAD_THUMBNAIL'], data_judul + '.jpg'))
+                except:
+                    abort(403)
+                conn = mysql.connection
+                cur = conn.cursor()
+                cur.execute("INSERT INTO materi (thumbnail, judul, deskripsi, youtube, modul, waktu) VALUES (%s,%s,%s,%s,%s,%s)", (data_judul + '.jpg', data_judul, data_deskripsi, data_youtube, data_modul, data_waktu))
+                conn.commit()
+                return redirect(url_for('index_admin_materi'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
@@ -190,7 +182,6 @@ def edit_kuis():
     if 'admin' in session:
         if request.method == 'POST':
             data_id = request.form['id']
-            data_thumbnail = request.form['thumbnail']
             data_materi = request.form['materi']
             data_deskripsi = request.form['deskripsi']
             data_embed = request.form['embed']
@@ -198,7 +189,7 @@ def edit_kuis():
             data_waktu = datetime.datetime.now()
             conn = mysql.connection
             cur = conn.cursor()
-            cur.execute("UPDATE kuis SET thumbnail=%s, materi=%s, deskripsi=%s, embed=%s,  jumlah=%s, waktu=%s WHERE id=%s", (data_thumbnail, data_materi, data_deskripsi, data_embed, data_soal, data_waktu, data_id))
+            cur.execute("UPDATE kuis SET materi=%s, deskripsi=%s, embed=%s,  jumlah=%s, waktu=%s WHERE id=%s", (data_materi, data_deskripsi, data_embed, data_soal, data_waktu, data_id))
             conn.commit()
             return redirect(url_for('index_admin_kuis'))
     else:
@@ -209,17 +200,23 @@ def edit_kuis():
 def add_kuis():
     if 'admin' in session:
         if request.method == 'POST':
-            data_thumbnail = request.form['thumbnail']
+            data_thumbnail = request.files['thumbnail']
             data_materi = request.form['materi']
             data_deskripsi = request.form['deskripsi']
             data_embed = request.form['embed']
             data_soal = request.form['jumlah']
             data_waktu = datetime.datetime.now()
-            conn = mysql.connection
-            cur = conn.cursor()
-            cur.execute("INSERT INTO kuis (thumbnail, materi, deskripsi, embed, jumlah, waktu) VALUES (%s,%s,%s,%s,%s,%s)", (data_thumbnail, data_materi, data_deskripsi, data_embed, data_soal, data_waktu))
-            conn.commit()
-            return redirect(url_for('index_admin_kuis'))
+            if data_thumbnail and allowed_file(data_thumbnail.filename):
+                try:
+                    filename = data_thumbnail.filename
+                    data_thumbnail.save(os.path.join(app.config['UPLOAD_THUMBNAIL'], data_materi + '.jpg'))
+                except:
+                    abort(403)
+                conn = mysql.connection
+                cur = conn.cursor()
+                cur.execute("INSERT INTO kuis (thumbnail, materi, deskripsi, embed, jumlah, waktu) VALUES (%s,%s,%s,%s,%s,%s)", (data_materi + '.jpg', data_materi, data_deskripsi, data_embed, data_soal, data_waktu))
+                conn.commit()
+                return redirect(url_for('index_admin_kuis'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
@@ -255,14 +252,13 @@ def edit_kontributor():
     if 'admin' in session:
         if request.method == 'POST':
             data_id = request.form['id']
-            data_foto = request.form['foto']
             data_nama = request.form['nama']
             data_materi = request.form['materi']
             data_instagram = request.form['instagram']
             data_whatsapp = request.form['whatsapp']
             conn = mysql.connection
             cur = conn.cursor()
-            cur.execute("UPDATE kontributor SET foto=%s, nama=%s, materi=%s, instagram=%s, whatsapp=%s WHERE id=%s", (data_foto, data_nama, data_materi, data_instagram, data_whatsapp, data_id))
+            cur.execute("UPDATE kontributor SET nama=%s, materi=%s, instagram=%s, whatsapp=%s WHERE id=%s", (data_nama, data_materi, data_instagram, data_whatsapp, data_id))
             conn.commit()
             return redirect(url_for('index_admin_kontributor'))
     else:
@@ -273,16 +269,22 @@ def edit_kontributor():
 def add_kontributor():
     if 'admin' in session:
         if request.method == 'POST':
-            data_foto = request.form['foto']
+            data_foto = request.files['foto']
             data_nama = request.form['nama']
             data_materi = request.form['materi']
             data_instagram = request.form['instagram']
             data_whatsapp = request.form['whatsapp']
-            conn = mysql.connection
-            cur = conn.cursor()
-            cur.execute("INSERT INTO kontributor (foto, nama, materi, instagram, whatsapp) VALUES (%s,%s,%s,%s,%s)", (data_foto, data_nama, data_materi, data_instagram, data_whatsapp))
-            conn.commit()
-            return redirect(url_for('index_admin_kontributor'))
+            if data_foto and allowed_file(data_foto.filename):
+                try:
+                    filename = data_foto.filename
+                    data_foto.save(os.path.join(app.config['UPLOAD_THUMBNAIL'], data_nama + '.jpg'))
+                except:
+                    abort(403)
+                conn = mysql.connection
+                cur = conn.cursor()
+                cur.execute("INSERT INTO kontributor (foto, nama, materi, instagram, whatsapp) VALUES (%s,%s,%s,%s,%s)", (data_nama + '.jpg', data_nama, data_materi, data_instagram, data_whatsapp))
+                conn.commit()
+                return redirect(url_for('index_admin_kontributor'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
@@ -295,27 +297,6 @@ def delete_kontributor(data_id):
         cur.execute("DELETE FROM kontributor WHERE id=%s" %(data_id))
         conn.commit()
         return redirect(url_for('index_admin_kontributor'))
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index_admin'))
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-@app.route('/upload', methods = ['POST'])
-def upload_foto():
-    if 'admin' in session:
-        if request.method == 'POST':
-            konfirmasi_thumbnail = request.files['Thumbnail']
-            if konfirmasi_thumbnail and allowed_file(konfirmasi_thumbnail.filename):
-                filename = konfirmasi_thumbnail.filename
-                konfirmasi_thumbnail.save(os.path.join(app.config['UPLOAD_THUMBNAIL'], filename))
-                return 'Upload Berhasil <br><a href="/admin/dashboard">Kembali Ke Dashboard</a>'
-            else:
-                flash('Gagal Upload Foto ! | Format : JPG, PNG, JPEG')
-                return redirect(url_for('index_admin_dashboard'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
