@@ -1,36 +1,54 @@
 {% include 'header_admin.html' %}
-
-<div class="container">
-    <div class="table-responsive text-center">
-        <table class="table table-bordered table-striped">
-            <h1>DATA USER</h1>
-            <thead>
-                <tr>
-                    <th class="th">No</th>
-                    <th class="th">Nomor Induk Siswa</th>
-                    <th class="th">Nama</th>
-                    <th class="th">Kelas</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in range(0, len) %}
-                <tr>
-                    <td>{{i}}</td>
-                    <td>{{data_user[i][0]}}</td>
-                    <td>{{data_user[i][1]}}</td>
-                    <td>{{data_user[i][2]}}</td>
-                </tr>
-                {%endfor%}
-            </tbody>
-        </table>
+<div class="container animated slideInRight">
+	<h5 class="font-weight-bold" style="color: #6a6a6a;">DAFTAR SISWA</h5>
+    {% with messages = get_flashed_messages()%}
+    {% if messages %}
+    {%for message in messages%}
+    <div class="alert alert-primary" role="alert">
+        {{message}}
+     </div>
+    {% endfor %}
+    {%endif%}
+    {% endwith %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card" style="width: 100%; box-shadow: 0 15px 15px rgba(51, 54, 53, 0.17)">
+                <div class="card-body">
+                    <div style="margin-bottom: 10px;">
+                        <a href="#" class="btn btn-info"><i class="fas fa-user-plus"></i> SISWA</a>
+                    </div>
+                    <div style="height: 550px;overflow: scroll; background-color: #ffffff;">
+                        <table class="table table-striped table-hover table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th class="th">No</th>
+                                    <th class="th">Nomor Induk Siswa</th>
+                                    <th class="th">Nama</th>
+                                    <th class="th">Kelas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in range(0, len) %}  
+                                <tr>
+                                    <td>{{i}}</td>
+                                    <td>{{data_user[i][0]}}</td>
+                                    <td>{{data_user[i][1]}}</td>
+                                    <td>{{data_user[i][2]}}</td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- Menu Toggle Script -->
-    <script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Menu Toggle Script -->
+<script>
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");

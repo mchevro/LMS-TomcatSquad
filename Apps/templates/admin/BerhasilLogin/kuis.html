@@ -1,129 +1,139 @@
 {% include 'header_admin.html' %}
-
-<div id="modaledit{{tambah}}" class="modal fade text-dark" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h4 class="modal-title">Tambah Kuis</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <div class="modal-body text-dark">
-                <form action="{{url_for('add_kuis')}}" method="POST" enctype="multipart/form-data">
-                    {{ form.csrf_token }}
-                    <div class="form-group">
-                        <label>Thubmnail</label>
-                        <input type="hidden" name="id">
-                        <input type="file" class="form-control" name="thumbnail" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Materi</label>
-                        <input type="text" class="form-control" name="materi" maxlength="50" placeholder="Administrasi Sistem Jaringan" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Deskripsi</label>
-                        <input type="text" class="form-control" name="deskripsi" maxlength="100" placeholder="Latihan Soal Linux" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Link Google Form</label>
-                        <input type="text" class="form-control" name="embed" maxlength="255" placeholder="https://docs.google.com/forms/d/e/1FAIpQLSffrtKot8SJZ72IW4G8YTCjcSjktsZW9D6oNBZ1QnvYb5VSIg/viewform?embedded=true" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Jumlah Soal</label>
-                        <input type="number" class="form-control" name="jumlah" maxlength="50" placeholder="25" required>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="container">
+<h5 class="font-weight-bold" style="color: #6a6a6a;">DASHBOARD KUIS</h5>
+{% with messages = get_flashed_messages()%}
+{% if messages %}
+{%for message in messages%}
+<div class="alert alert-primary" role="alert">
+  {{message}}
 </div>
-
-<button class="btn btn-success" data-toggle="modal" data-target="#modaledit{{tambah}}">
+{% endfor %}
+{%endif%}
+{% endwith %}
+<div class="card" style="width: 100%; box-shadow: 0 15px 15px rgba(51, 54, 53, 0.17)">
+<div class="card-body">
+  <div style="margin-bottom: 10px;">
+    <button class="btn btn-success" data-toggle="modal" data-target="#modaledit{{tambah}}">
     <i class="far fa-file-alt"></i> Tambah Kuis
-</button>
-
-<div class="table-responsive">
-    <table class="table table-bordered table-striped text-center">
-        <thead>
-            <tr>
-                <th class="th">No</th>
-                <th class="th">Thubmnail</th>
-                <th class="th">Judul</th>
-                <th class="th">Deskripsi</th>
-                <th class="th">Link Googel Form</th>
-                <th class="th">Soal</th>
-                <th class="th">Waktu</th>
-                <th class="th">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in kuis %}
-            <tr>
-                <td>{{row[0]}}</td>
-                <td>
-                    <img src="../../../static/assets/img/{{row[1]}}" alt="Silahkan Upload Foto" width="150" height="150">
-                </td>
-                <td>{{row[2]}}</td>
-                <td>{{row[3]}}</td>
-                <td>{{row[4]}}</td>
-                <td>{{row[5]}}</td>
-                <td>{{row[6]}}</td>
-                <td>
-                    <a href="/edit_kuis/{{row.0}}" class="btn btn-primary btn-xs fa fa-pencil-square-o" data-toggle="modal" data-target="#modaledit{{row.0}}"></a>
-                    <a href="/delete_kuis/{{row.0}}" class="btn btn-danger btn-xs fa fa-trash" onclick="return confirm('Apakah Yakin Mau Hapus Materi?')"></a>
-                </td>
-            </tr>
-
-            <div id="modaledit{{row.0}}" class="modal fade text-dark" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit Kuis</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body text-dark">
-                            <form action="{{url_for('edit_kuis')}}" method="POST">
-                                {{ form.csrf_token }}
-                                <div class="form-group">
-                                    <label>Materi</label>
-                                    <input type="hidden" name="id" value="{{row.0}}">
-                                    <input type="text" class="form-control" name="materi" maxlength="50" value="{{row.2}}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Deskripsi</label>
-                                    <input type="text" class="form-control" name="deskripsi" maxlength="100" value="{{row.3}}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Link Google Form</label>
-                                    <input type="text" class="form-control" name="embed" maxlength="255" value="{{row.4}}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Jumlah Soal</label>
-                                    <input type="number" class="form-control" name="jumlah" maxlength="100" value="{{row.5}}" required>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-primary" type="submit">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    </button>
+  </div>
+  <div id="modaledit{{tambah}}" class="modal fade text-dark" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Tambah Kuis</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body text-dark">
+          <form action="{{url_for('add_kuis')}}" method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="form-group">
+              <label>Thubmnail</label>
+              <input type="hidden" name="id">
+              <input type="file" class="form-control" name="thumbnail" required>
             </div>
-            {%endfor%}
-        </tbody>
+            <div class="form-group">
+              <label>Materi</label>
+              <input type="text" class="form-control" name="materi" maxlength="50" placeholder="Administrasi Sistem Jaringan" required>
+            </div>
+            <div class="form-group">
+              <label>Deskripsi</label>
+              <input type="text" class="form-control" name="deskripsi" maxlength="100" placeholder="Latihan Soal Linux" required>
+            </div>
+            <div class="form-group">
+              <label>Link Google Form</label>
+              <input type="text" class="form-control" name="embed" maxlength="255" placeholder="https://docs.google.com/forms/d/e/1FAIpQLSffrtKot8SJZ72IW4G8YTCjcSjktsZW9D6oNBZ1QnvYb5VSIg/viewform?embedded=true" required>
+            </div>
+            <div class="form-group">
+              <label>Jumlah Soal</label>
+              <input type="number" class="form-control" name="jumlah" maxlength="50" placeholder="25" required>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped text-center">
+      <thead>
+        <tr>
+          <th class="th">No</th>
+          <th class="th">Thubmnail</th>
+          <th class="th">Judul</th>
+          <th class="th">Deskripsi</th>
+          <th class="th">Link Googel Form</th>
+          <th class="th">Soal</th>
+          <th class="th">Waktu</th>
+          <th class="th">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in kuis %}
+        <tr>
+          <td>{{row[0]}}</td>
+          <td>
+            <img src="../../../static/assets/img/{{row[1]}}" alt="Silahkan Upload Foto" width="150" height="150">
+          </td>
+          <td>{{row[2]}}</td>
+          <td>{{row[3]}}</td>
+          <td>{{row[4]}}</td>
+          <td>{{row[5]}}</td>
+          <td>{{row[6]}}</td>
+          <td>
+            <a href="/edit_kuis/{{row.0}}" class="btn btn-primary btn-xs fa fa-pencil-square-o" data-toggle="modal" data-target="#modaledit{{row.0}}"></a>
+            <a href="/delete_kuis/{{row.0}}" class="btn btn-danger btn-xs fa fa-trash" onclick="return confirm('Apakah Yakin Mau Hapus Materi?')"></a>
+          </td>
+        </tr>
+        <div id="modaledit{{row.0}}" class="modal fade text-dark" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Edit Kuis</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body text-dark">
+                <form action="{{url_for('edit_kuis')}}" method="POST">
+                  {{ form.csrf_token }}
+                  <div class="form-group">
+                    <label>Materi</label>
+                    <input type="hidden" name="id" value="{{row.0}}">
+                    <input type="text" class="form-control" name="materi" maxlength="50" value="{{row.2}}" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Deskripsi</label>
+                    <input type="text" class="form-control" name="deskripsi" maxlength="100" value="{{row.3}}" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Link Google Form</label>
+                    <input type="text" class="form-control" name="embed" maxlength="255" value="{{row.4}}" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Jumlah Soal</label>
+                    <input type="number" class="form-control" name="jumlah" maxlength="100" value="{{row.5}}" required>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+      </tbody>
     </table>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Menu Toggle Script -->
+<script>
+  $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+  });
+</script>
