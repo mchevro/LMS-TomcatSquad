@@ -58,8 +58,10 @@ GITHUB : https://github.com/mchevro
 			</nav>
             <!-- CONTENT -->
             <div class="container">
+                <h5 class="font-weight-bold" style="color: #6a6a6a;">VIDEO TUTORIAL</h5>
+				<hr style="margin-bottom: 10px; margin-top: -5px;" />
                 {% for row in tutorial %}
-                <div class="embed-responsive embed-responsive-16by9">
+                <div class="embed-responsive embed-responsive-16by9" style="width: 100%; box-shadow: 0 15px 15px rgba(51, 54, 53, 0.17)">
                     <iframe class="embed-responsive-item" src="{{row[4]}}" allowfullscreen></iframe>
                 </div>
                 {%endfor%}

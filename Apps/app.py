@@ -13,29 +13,34 @@ app.secret_key = os.urandom(24)
 csrf.init_app(app)
 app.config['MAX_CONTENT_LENGTH'] = 3 * 1024 * 1024
 
-'''
-UPLOAD GAMBAR
-'''
+#===================
+# KONFIG GAMBAR START
+#===================
 UPLOAD_THUMBNAIL = 'static/assets/img/'                 #SESUAIKAN DENGAN DIRECTORY HOSTING
 ALLOWED_EXTENSIONS = set(['jpeg', 'png', 'jpg'])
 app.config['UPLOAD_THUMBNAIL'] = UPLOAD_THUMBNAIL
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+#===================
+# KONFIG GAMBAR END
+#===================
 
-'''
-DATABASE MYSQL
-'''
-#Mysql Konfigurasi
+#===================
+# DATABASE START
+#===================
 app.config['MYSQL_HOST']        = 'localhost'
 app.config['MYSQL_USER']        = 'root'
 app.config['MYSQL_PASSWORD']    = ''
 app.config['MYSQL_DATABASE']    = 'tomcat_flask_elearning'
 mysql = MySQL(app)
+#===================
+# DATABASE END
+#===================
 
-'''
-A D M I N
-'''
+#====================================
+# VIEW ADMIN START
+#====================================
 @app.route('/admin')
 def index_admin():
     form = RegistrationForm()
@@ -83,6 +88,9 @@ def index_admin_dashboard():
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
 
+#===================
+# DASHBOARD MATERI START
+#===================
 @app.route('/admin/materi')
 def index_admin_materi():
     if 'admin' in session:
@@ -101,25 +109,6 @@ def index_admin_materi():
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
-
-@app.route('/edit_materi', methods = ['POST'])
-def edit_materi():
-    if 'admin' in session:
-        if request.method == 'POST':
-            data_id = request.form['id']
-            data_judul = request.form['judul']
-            data_deskripsi = request.form['deskripsi']
-            data_youtube = request.form['youtube']
-            data_modul = request.form['modul']
-            data_waktu = datetime.datetime.now()
-            conn = mysql.connection
-            cur = conn.cursor()
-            cur.execute("UPDATE materi SET judul=%s, deskripsi=%s, youtube=%s,  modul=%s,waktu=%s WHERE id=%s", (data_judul, data_deskripsi, data_youtube, data_modul,data_waktu, data_id))
-            conn.commit()
-            return redirect(url_for('index_admin_materi'))
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
 
 @app.route('/add_materi', methods = ['POST'])
 def add_materi():
@@ -141,11 +130,51 @@ def add_materi():
                 cur = conn.cursor()
                 cur.execute("INSERT INTO materi (thumbnail, judul, deskripsi, youtube, modul, waktu) VALUES (%s,%s,%s,%s,%s,%s)", (data_judul + '.jpg', data_judul, data_deskripsi, data_youtube, data_modul, data_waktu))
                 conn.commit()
+                flash('BERHASIL BUAT MATERI')
                 return redirect(url_for('index_admin_materi'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
 
+@app.route('/edit_materi', methods = ['POST'])
+def edit_materi():
+    if 'admin' in session:
+        if request.method == 'POST':
+            data_id = request.form['id']
+            data_judul = request.form['judul']
+            data_deskripsi = request.form['deskripsi']
+            data_youtube = request.form['youtube']
+            data_modul = request.form['modul']
+            data_waktu = datetime.datetime.now()
+            conn = mysql.connection
+            cur = conn.cursor()
+            cur.execute("UPDATE materi SET judul=%s, deskripsi=%s, youtube=%s,  modul=%s,waktu=%s WHERE id=%s", (data_judul, data_deskripsi, data_youtube, data_modul,data_waktu, data_id))
+            conn.commit()
+            flash('BERHASIL EDIT MATERI')
+            return redirect(url_for('index_admin_materi'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
+
+@app.route('/delete_materi/<int:data_id>', methods = ['GET'])
+def delete_materi(data_id):
+    if 'admin' in session:
+        conn = mysql.connection
+        cur = conn.cursor()
+        cur.execute("DELETE FROM materi WHERE id=%s" %(data_id))
+        conn.commit()
+        flash('MATERI TELAH DIHAPUS')
+        return redirect(url_for('index_admin_materi'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index_admin'))
+#===================
+# DASHBOARD MATERI END
+#===================
+
+#===================
+# DASHBOARD NOTIFIKASI START
+#===================
 @app.route('/edit_notifikasi', methods = ['POST'])
 def edit_notifikasi():
     if 'admin' in session:
@@ -158,11 +187,18 @@ def edit_notifikasi():
             cur = conn.cursor()
             cur.execute("UPDATE notifikasi SET judul=%s, link=%s, jam=%s WHERE id=%s", (data_judul, data_link, data_waktu, data_id))
             conn.commit()
+            flash('NOTIFIKASI TELAH DIPERBARUI')
             return redirect(url_for('index_admin_materi'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
+#===================
+# DASHBOARD NOTIFIKASI END
+#===================
 
+#===================
+# DASHBOARD KUIS START
+#===================
 @app.route('/admin/kuis')
 def index_admin_kuis():
     if 'admin' in session:
@@ -176,25 +212,6 @@ def index_admin_kuis():
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
-
-@app.route('/edit_kuis', methods = ['POST'])
-def edit_kuis():
-    if 'admin' in session:
-        if request.method == 'POST':
-            data_id = request.form['id']
-            data_materi = request.form['materi']
-            data_deskripsi = request.form['deskripsi']
-            data_embed = request.form['embed']
-            data_soal = request.form['jumlah']
-            data_waktu = datetime.datetime.now()
-            conn = mysql.connection
-            cur = conn.cursor()
-            cur.execute("UPDATE kuis SET materi=%s, deskripsi=%s, embed=%s,  jumlah=%s, waktu=%s WHERE id=%s", (data_materi, data_deskripsi, data_embed, data_soal, data_waktu, data_id))
-            conn.commit()
-            return redirect(url_for('index_admin_kuis'))
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
 
 @app.route('/add_kuis', methods = ['POST'])
 def add_kuis():
@@ -216,10 +233,31 @@ def add_kuis():
                 cur = conn.cursor()
                 cur.execute("INSERT INTO kuis (thumbnail, materi, deskripsi, embed, jumlah, waktu) VALUES (%s,%s,%s,%s,%s,%s)", (data_materi + '.jpg', data_materi, data_deskripsi, data_embed, data_soal, data_waktu))
                 conn.commit()
+                flash('BERHASIL BUAT KUIS')
                 return redirect(url_for('index_admin_kuis'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
+
+@app.route('/edit_kuis', methods = ['POST'])
+def edit_kuis():
+    if 'admin' in session:
+        if request.method == 'POST':
+            data_id = request.form['id']
+            data_materi = request.form['materi']
+            data_deskripsi = request.form['deskripsi']
+            data_embed = request.form['embed']
+            data_soal = request.form['jumlah']
+            data_waktu = datetime.datetime.now()
+            conn = mysql.connection
+            cur = conn.cursor()
+            cur.execute("UPDATE kuis SET materi=%s, deskripsi=%s, embed=%s,  jumlah=%s, waktu=%s WHERE id=%s", (data_materi, data_deskripsi, data_embed, data_soal, data_waktu, data_id))
+            conn.commit()
+            flash('BERHASIL EDIT KUIS')
+            return redirect(url_for('index_admin_kuis'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
 
 @app.route('/delete_kuis/<int:data_id>', methods = ['GET'])
 def delete_kuis(data_id):
@@ -228,11 +266,18 @@ def delete_kuis(data_id):
         cur = conn.cursor()
         cur.execute("DELETE FROM kuis WHERE id=%s" %(data_id))
         conn.commit()
+        flash('KUIS TELAH DIHAPUS')
         return redirect(url_for('index_admin_kuis'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
+#===================
+# DASHBOARD KUIS END
+#===================
 
+#===================
+# DASHBOARD KONTRIBUTOR START
+#===================
 @app.route('/admin/kontributor')
 def index_admin_kontributor():
     if 'admin' in session:
@@ -246,24 +291,6 @@ def index_admin_kontributor():
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
-
-@app.route('/edit_kontributor', methods = ['POST'])
-def edit_kontributor():
-    if 'admin' in session:
-        if request.method == 'POST':
-            data_id = request.form['id']
-            data_nama = request.form['nama']
-            data_materi = request.form['materi']
-            data_instagram = request.form['instagram']
-            data_whatsapp = request.form['whatsapp']
-            conn = mysql.connection
-            cur = conn.cursor()
-            cur.execute("UPDATE kontributor SET nama=%s, materi=%s, instagram=%s, whatsapp=%s WHERE id=%s", (data_nama, data_materi, data_instagram, data_whatsapp, data_id))
-            conn.commit()
-            return redirect(url_for('index_admin_kontributor'))
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
 
 @app.route('/add_kontributor', methods = ['POST'])
 def add_kontributor():
@@ -284,10 +311,30 @@ def add_kontributor():
                 cur = conn.cursor()
                 cur.execute("INSERT INTO kontributor (foto, nama, materi, instagram, whatsapp) VALUES (%s,%s,%s,%s,%s)", (data_nama + '.jpg', data_nama, data_materi, data_instagram, data_whatsapp))
                 conn.commit()
+                flash('BERHASIL TAMBAH KONTRIBUTOR')
                 return redirect(url_for('index_admin_kontributor'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
+
+@app.route('/edit_kontributor', methods = ['POST'])
+def edit_kontributor():
+    if 'admin' in session:
+        if request.method == 'POST':
+            data_id = request.form['id']
+            data_nama = request.form['nama']
+            data_materi = request.form['materi']
+            data_instagram = request.form['instagram']
+            data_whatsapp = request.form['whatsapp']
+            conn = mysql.connection
+            cur = conn.cursor()
+            cur.execute("UPDATE kontributor SET nama=%s, materi=%s, instagram=%s, whatsapp=%s WHERE id=%s", (data_nama, data_materi, data_instagram, data_whatsapp, data_id))
+            conn.commit()
+            flash('BERHASIL EDIT KONTRIBUTOR')
+            return redirect(url_for('index_admin_kontributor'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
 
 @app.route('/delete_kontributor/<int:data_id>', methods = ['GET'])
 def delete_kontributor(data_id):
@@ -296,26 +343,22 @@ def delete_kontributor(data_id):
         cur = conn.cursor()
         cur.execute("DELETE FROM kontributor WHERE id=%s" %(data_id))
         conn.commit()
+        flash('KONTRIBUTOR TELAH DIHAPUS')
         return redirect(url_for('index_admin_kontributor'))
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index_admin'))
+#===================
+# DASHBOARD KONTRIBUTOR END
+#===================
 
-@app.route('/delete_materi/<int:data_id>', methods = ['GET'])
-def delete_materi(data_id):
-    if 'admin' in session:
-        conn = mysql.connection
-        cur = conn.cursor()
-        cur.execute("DELETE FROM materi WHERE id=%s" %(data_id))
-        conn.commit()
-        return redirect(url_for('index_admin_materi'))
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index_admin'))
-    
-'''
-U S E R
-'''
+#====================================
+# VIEW ADMIN END
+#====================================
+
+#====================================
+# VIEW USER START
+#====================================
 @app.route('/')
 def index():
     form = RegistrationForm()
@@ -414,9 +457,9 @@ def index_kuis2(m_id,judul):
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
-'''
-IP CALCULATOR
-'''
+#===================
+# USER IP CALC START
+#===================
 @app.route('/tools')
 def index_tools():
     if 'login' in session:
@@ -527,9 +570,9 @@ def subnet():
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
-'''
-END IP CALCULATOR
-'''
+#===================
+# USER IP CALC END
+#===================
 
 @app.route('/modul/<int:m_id>', methods = ['GET'])
 def index_modul(m_id):

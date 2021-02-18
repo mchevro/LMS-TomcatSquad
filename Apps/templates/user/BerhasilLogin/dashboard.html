@@ -6,30 +6,45 @@
 			</nav>
 			<!-- CONTENT -->
 			<div class="container">
-				<div class="alert alert-info text-center" role="alert">
-					<h4 class="alert-heading">{{nama}}</h4>
-					<hr>
-					<p class="mb-0">Selamat Belajar</p>
-				</div>
-				<div class="alert alert-warning alert-dismissible">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<div class="toast" id="myToast">
-						{% for row in notifikasi %}
-						<div class="toast-header">
-							<strong class="mr-auto"><i class="fas fa-video"></i> New Video</strong>
-							<small>{{row[3]}}</small>
+				<h5 class="font-weight-bold" style="color: #6a6a6a;">DASHBOARD | {{nama}}</h5>
+				<hr style="margin-bottom: -5px; margin-top: -5px;" />
+				<div class="row">
+					<div class="col-sm-6" style="margin-top: 15px;">
+						<div class="alert alert-warning alert-dismissible" style="box-shadow: 0 15px 15px rgba(51, 54, 53, 0.17)">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<div class="toast" id="myToast">
+								{% for row in notifikasi %}
+								<div class="toast-header">
+									<strong class="mr-auto"><i class="fas fa-video"></i> New Video</strong>
+									<small>{{row[3]}}</small>
+								</div>
+								<div class="toast-body">
+									{{row[1]}}<a href="{{row[2]}}"> Click Here</a>
+								</div>
+								{%endfor%}
+							</div>
 						</div>
-						<div class="toast-body">
-							{{row[1]}}<a href="{{row[2]}}"> Click Here</a>
+					</div>
+					<div class="col-sm-6" style="margin-top: 15px;">
+						<div class="card" style="width: 100%; box-shadow: 0 15px 15px rgba(51, 54, 53, 0.17)">
+							<div class="card-body">
+								<p class="judul" style="margin-bottom: -10px;">HELP</p>
+								<hr style="margin-bottom: 10px;" />
+								<div class="row">
+									<div class="col" style="margin-top: 5px;">
+										<a href="https://api.whatsapp.com/send?phone=+6281381662912&text=Hallo%20Kak,%20Saya%20Mau%20Bergabung%20Jadi%20Kontributor" class="btn" style="background-color: rgb(177, 169, 104); color: azure;"><i class="fa fa-user-plus" aria-hidden="true"></i> Kontributor</a>
+									</div>
+									<div class="col" style="margin-top: 5px;">
+										<a href="https://api.whatsapp.com/send?phone=+6281381662912&text=Hallo%20Kak,%20Saya%20Mau%20Tanya%20Tentang%20%0aJudul%20:%20%0APertanyaan%20:" class="btn" style="background-color: rgb(77, 187, 132); color: azure;"><i class="fa fa-comments" aria-hidden="true"></i> Pertanyaan&ensp;</a>
+									</div>
+									<div class="col" style="margin-top: 5px;">
+										<button type="button" class="btn" style="background-color: rgb(126, 165, 180); color: azure;" data-toggle="modal" data-target="#download"><i class="fas fa-download"></i> Download&ensp;&ensp;</a></button>
+									</div>
+								</div>
+							</div>
 						</div>
-						{%endfor%}
 					</div>
 				</div>
-				<ul class="list-group list-group-horizontal text-center">
-					<li class="list-group-item"><a href="https://api.whatsapp.com/send?phone=+6281381662912&text=Hallo%20Kak,%20Saya%20Mau%20Bergabung%20Jadi%20Kontributor" class="btn" style="background-color: rgb(177, 169, 104); color: azure;"><i class="fa fa-user-plus" aria-hidden="true"></i> Kontributor</a></li>
-					<li class="list-group-item"><a href="https://api.whatsapp.com/send?phone=+6281381662912&text=Hallo%20Kak,%20Saya%20Mau%20Tanya%20Tentang%20%0aJudul%20:%20%0APertanyaan%20:" class="btn" style="background-color: rgb(77, 187, 132); color: azure;"><i class="fa fa-comments" aria-hidden="true"></i> Pertanyaan&ensp;</a></li>
-					<li class="list-group-item"><button type="button" class="btn" style="background-color: rgb(126, 165, 180); color: azure;" data-toggle="modal" data-target="#download"><i class="fas fa-download"></i> Download&ensp;&ensp;</a></button></li>
-				</ul>
 			</div>
 			<div class="modal fade" id="download">
 				<div class="modal-dialog">
@@ -43,7 +58,7 @@
 						<div class="modal-body">
 							<div class="card-deck">
 								<div class="card-body text-center">
-									<a href="https://mega.nz/folder/BjhzxDyJ#LmwYC4XVERySJtcSSx3d7A" class="btn btn-outline-light" style="background-color: #35b76e; color: azure;">
+									<a href="https://mega.nz/folder/5eYhWAKD#5pHjfoTbkwQKZ2J9tKjuUA" class="btn btn-outline-light" style="background-color: #35b76e; color: azure;">
 										<i class="fas fa-folder-open" aria-hidden="true"></i> 
 										Repository Utama
 									</a>
@@ -55,7 +70,7 @@
 									</a>
 								</div>
 								<div class="card-body text-center">
-									<a href="https://mega.nz/folder/BjhzxDyJ#LmwYC4XVERySJtcSSx3d7A/folder/cjhGWb5R" class="btn btn-outline-light" style="background-color: #c43b3b; color: azure;">
+									<a href="https://mega.nz/folder/5eYhWAKD#5pHjfoTbkwQKZ2J9tKjuUA/folder/Ja5jEIzA" class="btn btn-outline-light" style="background-color: #c43b3b; color: azure;">
 										<i class="fas fa-code" aria-hidden="true"></i> 
 										Script Tutorial
 									</a>

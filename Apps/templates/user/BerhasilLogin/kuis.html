@@ -6,9 +6,11 @@
 			</nav>
 			<!-- CONTENT -->
 			<div class="container">
-				<div class="card-columns">
+				<h5 class="font-weight-bold" style="color: #6a6a6a;">KUIS</h5>
+				<hr style="margin-bottom: -5px; margin-top: -5px;" />
+				<div class="card-columns" style="margin-top: 15px;">
 					{% for row in kuis %}
-					<div class="card">
+					<div class="card" style="width: 100%; box-shadow: 0 15px 15px rgba(51, 54, 53, 0.17)">
 						<img src="static/assets/img/{{row[1]}}" class="card-img-top" alt="Thumbnail" width="300" height="300">
 						<div class="card-body">
 							<h5 class="card-title">{{row[2]}}</h5>
