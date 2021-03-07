@@ -44,6 +44,9 @@ mysql = MySQL(app)
 @app.route('/admin')
 def index_admin():
     form = RegistrationForm()
+    if 'admin' in session:
+        return redirect(url_for('index_admin_dashboard'))
+        
     return  render_template('admin/index.html', form=form)
 
 @app.route('/login_admin', methods = ['POST'])
@@ -362,6 +365,9 @@ def delete_kontributor(data_id):
 @app.route('/')
 def index():
     form = RegistrationForm()
+    if 'login' in session:
+        return redirect(url_for('index_dashboard'))
+        
     return  render_template('user/index.html', form=form)
 
 @app.route('/login', methods = ['POST'])
