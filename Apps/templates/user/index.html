@@ -7,66 +7,50 @@ GITHUB : https://github.com/mchevro
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Tomcat Squad</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Elearning Tomcat Squad">
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="static/assets/css/style.css">
-    <link rel="shortcut icon" href="static/assets/img/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="static/assets/img/favicon.ico" type="image/x-icon">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<title>Tomcat Squad</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Elearning Tomcat Squad">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="static/assets/css/style.css">
+	<link rel="shortcut icon" href="static/assets/img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="static/assets/img/favicon.ico" type="image/x-icon">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<body>  
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-dark" style="background-color: #5891ff">
-        <a class="navbar-brand" href="https://elearning.tomcatsquad.web.id">
-            <img src="static/assets/img/tomcatlogo.png" width="40" height="40" class="d-inline-block align-top" alt="tomcatlogo">
-            Tomcat Squad
-        </a>
-    </nav>
-    <!-- LOGIN -->
-    <div class="alert alert-info alert-dismissible container" style="font-size: 13px;">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Informasi!</strong><br> Karena sudah menjadi bagian dari sekolah, login harus menggunakan NIS.
-      </div>
-    <div class="registration-form">
-        <form action="{{url_for('index')}}" method="post">
-            {{ form.csrf_token }}
-            <div class="form-icon">
-                <span><i class="icon icon-user"></i></span>
-            </div>
-{% with messages = get_flashed_messages()%}
-{% if messages %}
-{%for message in messages%}
-<p class="text-center">{{message}}</p>
-{% endfor %}
-{%endif%}
-{% endwith %}
-            <div class="form-group">
-                <input type="number" class="form-control item" name="nis" id="nis" placeholder="Nomor Induk Siswa" required>
-            </div>
-            <div class="form-group msg">
-                <button type="submit" name="login" class="btn btn-block create-account">Login</button>
-            </div>
-        </form>
 
-        <div class="social-media">
-            <h5>Social Media</h5>
-            <div class="social-icons">
-                <a href="https://www.instagram.com/tomcatsquad_/"><i class="icon-social-instagram" title="instagram"></i></a>
-                <a href="https://web.facebook.com/pages/category/Community-Organization/Tomcat-Squad-311939858932150/?_rdc=1&_rdr"><i class="icon-social-facebook" title="facebook"></i></a>
-            </div>
-            <a href="https://tomcatsquad.web.id" class="forgot footer">
-                <p>&copy;tomcatsquad</p>
-            </a>
-        </div>
-    </div>
-
-    <!--JQUERY-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<body>
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-dark" style="background-color: #5891ff">
+		<a class="navbar-brand" href="https://elearning.tomcatsquad.web.id">
+			<img src="static/assets/img/tomcatlogo.png" width="40" height="40" class="d-inline-block align-top" alt="tomcatlogo">Tomcat Squad</a>
+	</nav>
+	<!-- LOGIN -->
+	<div class="registration-form">
+		<form action="{{url_for('index')}}" method="post">{{ form.csrf_token }}
+			<div class="form-icon"> <span><i class="icon icon-user"></i></span>
+			</div>{% with messages = get_flashed_messages()%} {% if messages %} {%for message in messages%}
+			<p class="text-center">{{message}}</p>{% endfor %} {%endif%} {% endwith %}
+			<div class="form-group">
+				<input type="number" class="form-control item" name="nis" id="nis" placeholder="Nomor Induk Siswa" required>
+			</div>
+			<div class="form-group msg">
+				<button type="submit" name="login" class="btn btn-block create-account">Login</button>
+			</div>
+		</form>
+		<div class="social-media">
+			<h5>Social Media</h5>
+			<div class="social-icons"> <a href="https://www.instagram.com/tomcatsquad_/"><i class="icon-social-instagram" title="instagram"></i></a>
+				<a href="https://web.facebook.com/pages/category/Community-Organization/Tomcat-Squad-311939858932150/?_rdc=1&_rdr"><i class="icon-social-facebook" title="facebook"></i></a>
+			</div>
+			<a href="https://tomcatsquad.web.id" class="forgot footer">
+				<p>&copy;tomcatsquad</p>
+			</a>
+		</div>
+	</div>
+	<!--JQUERY-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

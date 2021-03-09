@@ -1,50 +1,43 @@
 {% include 'header.html' %}
-        <!-- BUTTON SIDEBARR -->
-        <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <i class="fas fa-bars" style="font-size: 25px;" id="menu-toggle"></i>
-			</nav>
-			<!-- CONTENT -->
-			<div class="container">
-				<h5 class="font-weight-bold" style="color: #6a6a6a;">KONTRIBUTOR</h5>
-				<hr style="margin-bottom: 10px; margin-top: -5px;" />
-				<div class="row">
-					{% for row in kontributor %}
-					<div class="col-sm-4">
-						<div class="card img-fluid" style="width: 100%; box-shadow: 0 15px 15px rgba(51, 54, 53, 0.17)">
-							<img class="card-img-top" src="static/assets/img/{{row[1]}}" alt="Profile" style="width: 100%;">
-							<div class="card-body text-center">
-								<h4 class="card-tittle">{{row[2]}}</h4>
-								<p class="card-text">{{row[3]}}</p>
-								<a href="https://instagram.com/{{row[4]}}" class="btn" style="color: #CB204E;">
-									<i class="fa fa-instagram" aria-hidden="true" style="font-size: 30px;"></i>
-								</a>
-								<a href="https://wa.me/{{row[5]}}" class="btn" style="color: #4BC658;">
-									<i class="fab fa-whatsapp" aria-hidden="true" style="font-size: 30px;"></i>
-								</a>
-							</div>
-						</div>
+<!-- BUTTON SIDEBARR -->
+<div id="page-content-wrapper">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom"> <i class="fas fa-bars" style="font-size: 25px;" id="menu-toggle"></i>
+	</nav>
+	<!-- CONTENT -->
+	<div class="container">
+		<h5 class="font-weight-bold" style="color: #6a6a6a;">KONTRIBUTOR</h5>
+		<hr style="margin-bottom: 10px; margin-top: -5px;" />
+		<div class="row">{% for row in kontributor %}
+			<div class="col-sm-4">
+				<div class="card img-fluid" style="width: 100%; box-shadow: 0 15px 15px rgba(51, 54, 53, 0.17)">
+					<img class="card-img-top" src="static/assets/img/{{row[1]}}" alt="Profile" style="width: 100%;">
+					<div class="card-body text-center">
+						<h4 class="card-tittle">{{row[2]}}</h4>
+						<p class="card-text">{{row[3]}}</p>
+						<a href="https://instagram.com/{{row[4]}}" class="btn" style="color: #CB204E;">	<i class="fa fa-instagram" aria-hidden="true" style="font-size: 30px;"></i></a>
+						<a href="https://wa.me/{{row[5]}}" class="btn" style="color: #4BC658;">	<i class="fab fa-whatsapp" aria-hidden="true" style="font-size: 30px;"></i></a>
 					</div>
-					{%endfor%}
 				</div>
-			</div>
-        </div>
-        <!-- Bootstrap core JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		    <!-- Menu Toggle Script -->
-			<script>
-				$("#menu-toggle").click(function(e) {
+			</div>{%endfor%}</div>
+	</div>
+</div>
+<!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Menu Toggle Script -->
+<script>
+	$("#menu-toggle").click(function(e) {
 					e.preventDefault();
 					$("#wrapper").toggleClass("toggled");
 					});
-			</script>
-			<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">  
-			<style>
-				h1{
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+<style>
+	h1{
 					font-family: 'Indie Flower', cursive;
 				}
-			</style>
+</style>
 </body>
+
 </html>
