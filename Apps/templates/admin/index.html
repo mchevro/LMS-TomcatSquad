@@ -31,7 +31,7 @@ GITHUB : https://github.com/mchevro
     </nav>
     <!-- LOGIN -->
     <div class="registration-form">
-        <form action="{{url_for('login_admin')}}" method="post">
+        <form action="{{url_for('index_admin')}}" method="post">
             {{ form.csrf_token }}
             <div class="form-icon">
                 <span><i class="fa fa-user-secret"></i></span>
@@ -44,10 +44,10 @@ GITHUB : https://github.com/mchevro
 {%endif%}
 {% endwith %}
             <div class="form-group">
-                <input type="text" class="form-control item" maxlength="10" name="username" id="username" placeholder="Username" required>
+                <input type="text" class="form-control item" maxlength="20" name="username" id="username" placeholder="Username" required>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control item" maxlength="20" name="password" id="myInput" placeholder="Password" required>
+                <input type="password" class="form-control item" maxlength="20" name="password" id="myInput" placeholder="Password">
                 <input type="checkbox" onclick="myFunction()"> Show Password
             </div>
             <div class="form-group msg">

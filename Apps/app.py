@@ -2,23 +2,27 @@ from flask import (Flask, redirect, url_for, request,
                     render_template, abort, session, flash)
 from flask_mysql_connector import MySQL
 from flask_wtf.csrf import CSRFProtect
+from static.FTP import Ftp
 from static.TOKEN import RegistrationForm
 from werkzeug.utils import secure_filename
 import os
 import datetime
+import time
 
 csrf = CSRFProtect()
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 csrf.init_app(app)
-app.config['MAX_CONTENT_LENGTH'] = 3 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 25 * 1024 * 1024
 
 #===================
 # KONFIG GAMBAR START
 #===================
-UPLOAD_THUMBNAIL = 'static/assets/img/'                 #SESUAIKAN DENGAN DIRECTORY HOSTING
-ALLOWED_EXTENSIONS = set(['jpeg', 'png', 'jpg'])
+ALLOWED_EXTENSIONS = set(['jpeg', 'png', 'jpg', 'pdf'])
+UPLOAD_THUMBNAIL = '/home/tomcatsq/public_html/elearning.tomcatsquad.web.id/static/assets/img/'                 #SESUAIKAN DENGAN DIRECTORY HOSTING
 app.config['UPLOAD_THUMBNAIL'] = UPLOAD_THUMBNAIL
+UPLOAD_JURNAL = '/home/tomcatsq/public_html/elearning.tomcatsquad.web.id/'               #SESUAIKAN DENGAN DIRECTORY HOSTING
+app.config['UPLOAD_JURNAL'] = UPLOAD_JURNAL
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -32,7 +36,7 @@ def allowed_file(filename):
 app.config['MYSQL_HOST']        = 'localhost'
 app.config['MYSQL_USER']        = 'root'
 app.config['MYSQL_PASSWORD']    = ''
-app.config['MYSQL_DATABASE']    = 'tomcat_flask_elearning'
+app.config['MYSQL_DATABASE']    = 'tomcatsq_elearning'
 mysql = MySQL(app)
 #===================
 # DATABASE END
@@ -41,38 +45,30 @@ mysql = MySQL(app)
 #====================================
 # VIEW ADMIN START
 #====================================
-@app.route('/admin')
+@app.route('/admin', methods = ['GET', 'POST'])
 def index_admin():
     form = RegistrationForm()
-    if 'admin' in session:
-        return redirect(url_for('index_admin_dashboard'))
-        
-    return  render_template('admin/index.html', form=form)
-
-@app.route('/login_admin', methods = ['POST'])
-def login_admin():
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        admin_username = request.form['username']
-        admin_password = request.form['password']
+    if request.method == 'POST' and 'username' in request.form:
+        admin_nis = request.form['username']
         cur = mysql.new_cursor(dictionary=True)
-        cur.execute("SELECT * FROM admin WHERE username=%s AND password=%s" , (admin_username, admin_password))
+        cur.execute("SELECT * FROM user WHERE nis=%s AND level='admin'" %(admin_nis))
         account = cur.fetchone()
         if account:
             session['admin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
             session['nama'] = account['nama']
             return redirect(url_for('index_admin_dashboard'))
         else:
             form = RegistrationForm()
             flash('Username Atau Password Salah')
             return render_template('admin/index.html',form=form)
+    if 'admin' in session:
+        return redirect(url_for('index_admin_dashboard'))
+        
+    return  render_template('admin/index.html', form=form)
 
 @app.route('/logout_admin')
 def logout_admin():
     session.pop('admin', None)
-    session.pop('id', None)
-    session.pop('username', None)
     session.pop('nama', None)
     flash('Anda Telah Keluar', 'logout')
     return redirect(url_for('index_admin')) 
@@ -279,6 +275,89 @@ def delete_kuis(data_id):
 #===================
 
 #===================
+# DASHBOARD JURNAL START
+#===================
+@app.route('/admin/jurnal')
+def index_admin_jurnal():
+    if 'admin' in session:
+        conn = mysql.connection
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM jurnal")
+        result = cur.fetchall()
+        nama = session['nama']
+        form = RegistrationForm()
+        return render_template('admin/BerhasilLogin/jurnal.html', jurnal = result, nama = nama, form=form)
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index_admin'))
+
+@app.route('/add_jurnal', methods = ['POST'])
+def add_jurnal():
+    if 'admin' in session:
+        if request.method == 'POST':
+            data_file = request.files['file']
+            data_nama = request.form['nama']
+            data_judul = request.form['judul']
+            data_tahun = request.form['tahun']
+            if data_file and allowed_file(data_file.filename):
+                try:
+                    filename = data_file.filename
+                    data_file.save(os.path.join(app.config['UPLOAD_JURNAL'], data_nama + '.pdf'))
+                    time.sleep(3)
+                    jurnal = Ftp('asd', 'asd', 'asd')
+                    jurnal.send(f'{data_nama}.pdf')
+                    time.sleep(2)
+                    os.remove(data_nama + '.pdf')
+                except:
+                    abort(403)
+                conn = mysql.connection
+                cur = conn.cursor()
+                cur.execute("INSERT INTO jurnal (nama, judul, tahun, file) VALUES (%s,%s,%s,%s)", (data_nama, data_judul, data_tahun, data_nama + '.pdf'))
+                conn.commit()
+                flash('BERHASIL TAMBAH JURNAL')
+                return redirect(url_for('index_admin_jurnal'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index_admin'))
+
+@app.route('/edit_jurnal', methods = ['POST'])
+def edit_jurnal():
+    if 'admin' in session:
+        if request.method == 'POST':
+            data_id = request.form['id']
+            data_nama = request.form['nama']
+            data_judul = request.form['judul']
+            data_tahun = request.form['tahun']
+            conn = mysql.connection
+            cur = conn.cursor()
+            cur.execute("UPDATE jurnal SET nama=%s, judul=%s, tahun=%s WHERE id=%s", (data_nama, data_judul, data_tahun, data_id))
+            conn.commit()
+            flash('BERHASIL EDIT JURNAL')
+            return redirect(url_for('index_admin_jurnal'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
+
+@app.route('/delete_jurnal/<string:data_file>', methods = ['GET'])
+def delete_jurnal(data_file):
+    if 'admin' in session:
+        conn = mysql.connection
+        cur = conn.cursor()
+        cur.execute("DELETE FROM jurnal WHERE file='%s'" %(data_file))
+        conn.commit()
+        time.sleep(1)
+        delete_jurnal = Ftp('ftp.tomcatsquad.web.id', 'mchevro@files.tomcatsquad.web.id', 'Mahendra@123')
+        delete_jurnal.delete(data_file)
+        flash('JURNAL TELAH DIHAPUS')
+        return redirect(url_for('index_admin_jurnal'))
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index_admin'))
+#===================
+# DASHBOARD JURNAL END
+#===================
+
+#===================
 # DASHBOARD KONTRIBUTOR START
 #===================
 @app.route('/admin/kontributor')
@@ -362,16 +441,9 @@ def delete_kontributor(data_id):
 #====================================
 # VIEW USER START
 #====================================
-@app.route('/')
+@app.route('/', methods = ['GET', 'POST'])
 def index():
     form = RegistrationForm()
-    if 'login' in session:
-        return redirect(url_for('index_dashboard'))
-        
-    return  render_template('user/index.html', form=form)
-
-@app.route('/login', methods = ['POST'])
-def login():
     if request.method == 'POST' and 'nis' in request.form:
         user_nis = request.form['nis']
         cur = mysql.new_cursor(dictionary=True)
@@ -379,18 +451,20 @@ def login():
         account = cur.fetchone()
         if account:
             session['login'] = True
-            session['id'] = account['id']
             session['nis'] = account['nis']
             session['nama'] = account['nama']
             return redirect(url_for('index_dashboard'))
         else:
             flash('Nomor Induk Siswa Tidak Ada')
             return redirect(url_for('index'))
+    if 'login' in session:
+        return redirect(url_for('index_dashboard'))
+        
+    return  render_template('user/index.html', form=form)
 
 @app.route('/logout')
 def logout():
     session.pop('login', None)
-    session.pop('id', None)
     session.pop('nis', None)
     session.pop('nama', None)
     flash('Anda Telah Keluar', 'logout')
@@ -595,7 +669,11 @@ def index_modul(m_id):
 @app.route('/jurnal')
 def index_jurnal():
     if 'login' in session:
-        return render_template('user/BerhasilLogin/jurnal.html')
+        conn = mysql.connection
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM jurnal")
+        result = cur.fetchall()
+        return render_template('user/BerhasilLogin/jurnal.html', jurnal = result)
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
@@ -605,7 +683,7 @@ def index_kontributor():
     if 'login' in session:
         conn = mysql.connection
         cur = conn.cursor()
-        cur.execute("SELECT * FROM kontributor ORDER BY nama")
+        cur.execute("SELECT * FROM kontributor")
         result = cur.fetchall()
         return render_template('user/BerhasilLogin/support.html', kontributor = result)
     else:
