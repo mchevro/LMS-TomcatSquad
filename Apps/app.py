@@ -479,7 +479,7 @@ def index_dashboard():
         result = cur.fetchall()
         nama = session['nama']
         #WRITE LOG AKSES WEBSITE
-        f = open("/log_akses.txt", "a") #SESUAIKAN DENGAN DIRECTORY HOSTING
+        f = open("static/log_akses.txt", "a") #SESUAIKAN DENGAN DIRECTORY HOSTING
         ip = request.environ['REMOTE_ADDR']
         time = datetime.datetime.now()
         get_time = time.strftime("%c")
@@ -490,169 +490,25 @@ def index_dashboard():
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
 
-@app.route('/materi')
+@app.route('/materi/', methods = ['GET'])
 def index_materi():
     if 'login' in session:
-        conn = mysql.connection
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM materi ORDER BY id DESC")
-        result = cur.fetchall()
-        return render_template('user/BerhasilLogin/materi.html', materi = result)
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
-
-@app.route('/materi/<int:m_id>/<string:judul>', methods = ['GET'])
-def index_materi2(m_id,judul):
-    if 'login' in session:
-        conn = mysql.connection
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM materi WHERE id=%s" %(m_id))
-        result = cur.fetchall()
-        return render_template('user/BerhasilLogin/tutorial.html', tutorial = result)
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
-
-@app.route('/kuis')
-def index_kuis():
-    if 'login' in session:
-        conn = mysql.connection
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM kuis ORDER BY waktu DESC")
-        result = cur.fetchall()
-        return render_template('user/BerhasilLogin/kuis.html', kuis = result)
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
-
-@app.route('/kuis/<int:m_id>/<string:judul>', methods = ['GET'])
-def index_kuis2(m_id,judul):
-    if 'login' in session:
-        conn = mysql.connection
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM kuis WHERE id=%s" %(m_id))
-        result = cur.fetchall()
-        return render_template('user/BerhasilLogin/take_kuis.html', kuis = result)
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
-#===================
-# USER IP CALC START
-#===================
-@app.route('/tools')
-def index_tools():
-    if 'login' in session:
-        form = RegistrationForm()
-        return render_template('user/BerhasilLogin/subnet.html',form = form)
-    else:
-        flash('Login Terlebih Dahulu')
-        return redirect(url_for('index'))
-
-@app.route('/subnet', methods=['POST'])
-def subnet():
-    if 'login' in session:
-        req_ip = request.form['ipaddress']
-        req_prefix = request.form['prefix']
-        if req_prefix == '8':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.0.0.0 Wildcard : 0.255.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '9':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.128.0.0 Wildcard : 0.127.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '10':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.192.0.0 Wildcard : 0.63.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '11':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.224.0.0 Wildcard : 0.31.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '12':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.240.0.0 Wildcard : 0.15.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '13':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.248.0.0 Wildcard : 0.7.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '14':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.252.0.0 Wildcard : 0.3.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '15':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.254.0.0 Wildcard : 0.1.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '16':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.0.0 Wildcard : 0.0.255.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '17':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.128.0 Wildcard : 0.0.127.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '18':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.192.0 Wildcard : 0.0.63.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '19':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.224.0 Wildcard : 0.0.31.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '20':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.240.0 Wildcard : 0.0.15.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '21':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.248.0 Wildcard : 0.0.7.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '22':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.252.0 Wildcard : 0.0.3.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '23':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.254.0 Wildcard : 0.0.1.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '24':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.0 Wildcard : 0.0.0.255', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '25':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.128 Wildcard : 0.0.0.127', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '26':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.192 Wildcard : 0.0.0.63', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '27':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.224 Wildcard : 0.0.0.31', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '28':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.240 Wildcard : 0.0.0.15', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '29':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.248 Wildcard : 0.0.0.7', 'subnet' )
-            return redirect(url_for('index_tools'))
-
-        elif req_prefix == '30':
-            flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.252 Wildcard : 0.0.0.3', 'subnet' )
-            return redirect(url_for('index_tools'))
+        title = request.args.get('title')
+        if not title:
+            conn = mysql.connection
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM materi ORDER BY id DESC")
+            result = cur.fetchall()
+            return render_template('user/BerhasilLogin/materi.html', materi = result)
         else:
-            abort(404)
+            conn = mysql.connection
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM materi WHERE judul='%s'" %(title))
+            result = cur.fetchall()
+            return render_template('user/BerhasilLogin/take_materi.html', tutorial = result)
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
-#===================
-# USER IP CALC END
-#===================
 
 @app.route('/modul/<int:m_id>', methods = ['GET'])
 def index_modul(m_id):
@@ -661,10 +517,141 @@ def index_modul(m_id):
         cur = conn.cursor()
         cur.execute("SELECT * FROM materi WHERE id=%s" %(m_id))
         result = cur.fetchall()
-        return render_template('user/BerhasilLogin/modul.html', modul = result)
+        return render_template('user/BerhasilLogin/take_modul.html', modul = result)
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
+
+@app.route('/kuis/', methods = ['GET'])
+def index_kuis():
+    if 'login' in session:
+        Id = request.args.get('id')
+        if not Id:
+            conn = mysql.connection
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM kuis ORDER BY waktu DESC")
+            result = cur.fetchall()
+            return render_template('user/BerhasilLogin/kuis.html', kuis = result)
+        else:
+            conn = mysql.connection
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM kuis WHERE id=%s" %(Id))
+            result = cur.fetchall()
+            return render_template('user/BerhasilLogin/take_kuis.html', kuis = result) 
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
+
+#===================
+# USER IP CALC START
+#===================
+@app.route('/tools', methods=['GET', 'POST'])
+def index_tools():
+    if 'login' in session:
+        form = RegistrationForm()
+        if request.method == 'POST':
+            req_ip = request.form['ipaddress']
+            req_prefix = request.form['prefix']
+            if req_prefix == '8':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.0.0.0 Wildcard : 0.255.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '9':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.128.0.0 Wildcard : 0.127.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '10':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.192.0.0 Wildcard : 0.63.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '11':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.224.0.0 Wildcard : 0.31.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '12':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.240.0.0 Wildcard : 0.15.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '13':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.248.0.0 Wildcard : 0.7.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '14':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.252.0.0 Wildcard : 0.3.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '15':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.254.0.0 Wildcard : 0.1.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '16':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.0.0 Wildcard : 0.0.255.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '17':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.128.0 Wildcard : 0.0.127.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '18':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.192.0 Wildcard : 0.0.63.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '19':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.224.0 Wildcard : 0.0.31.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '20':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.240.0 Wildcard : 0.0.15.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '21':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.248.0 Wildcard : 0.0.7.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '22':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.252.0 Wildcard : 0.0.3.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '23':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.254.0 Wildcard : 0.0.1.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '24':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.0 Wildcard : 0.0.0.255', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '25':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.128 Wildcard : 0.0.0.127', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '26':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.192 Wildcard : 0.0.0.63', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '27':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.224 Wildcard : 0.0.0.31', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '28':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.240 Wildcard : 0.0.0.15', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '29':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.248 Wildcard : 0.0.0.7', 'subnet' )
+                return redirect(url_for('index_tools'))
+
+            elif req_prefix == '30':
+                flash(f'IP Address : {req_ip} Subnetmask : 255.255.255.252 Wildcard : 0.0.0.3', 'subnet' )
+                return redirect(url_for('index_tools'))
+            else:
+                abort(404)
+        return render_template('user/BerhasilLogin/subnet.html',form = form)
+    else:
+        flash('Login Terlebih Dahulu')
+        return redirect(url_for('index'))
+#===================
+# USER IP CALC END
+#===================
         
 @app.route('/jurnal')
 def index_jurnal():
@@ -678,14 +665,14 @@ def index_jurnal():
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
 
-@app.route('/support')
+@app.route('/kontributor')
 def index_kontributor():
     if 'login' in session:
         conn = mysql.connection
         cur = conn.cursor()
         cur.execute("SELECT * FROM kontributor")
         result = cur.fetchall()
-        return render_template('user/BerhasilLogin/support.html', kontributor = result)
+        return render_template('user/BerhasilLogin/kontributor.html', kontributor = result)
     else:
         flash('Login Terlebih Dahulu')
         return redirect(url_for('index'))
