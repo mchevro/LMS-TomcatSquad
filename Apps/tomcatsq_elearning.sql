@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2021 at 05:46 AM
+-- Generation Time: Mar 11, 2021 at 07:14 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.27
 
@@ -55,7 +55,7 @@ CREATE TABLE `kontributor` (
 --
 
 INSERT INTO `kontributor` (`id`, `foto`, `nama`, `materi`, `instagram`, `whatsapp`) VALUES
-(1, 'mchevro.png', 'Mahendra Chevro Susanto', 'Cisco Packet Tracer, Debian 9, Mikrotik', 'm.chevr0', '+62 81381662912'),
+(1, 'mchevro.png', 'Mahendra Chevro', 'Cisco Packet Tracer', 'm.chevr0', '+62 81381662912'),
 (2, 'no-user.png', 'Faldi Ramadhan', 'Cisco Packet Tracer', 'fadilkun45', '+62 89697404581'),
 (3, 'ahnaf.jpg', 'Ahnaf Musyaffa Bisri Hendro Subagio', 'Debian 9', 'ahnafmusyafa', '+62 8191106565');
 
@@ -150,7 +150,6 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `nis`, `nama`, `kelas`, `level`) VALUES
-(0, '123456', 'OPERATOR', '', 'admin'),
 (1, '192010053', 'AKBAR EKA SAPUTRA', 'XI TKJ 1', 'user'),
 (2, '192010054', 'ALIYAH RAMADHANTI', 'XI TKJ 1', 'user'),
 (3, '192010055', 'AULIAS FIRMANSYAH ', 'XI TKJ 1', 'user'),
@@ -476,7 +475,8 @@ INSERT INTO `user` (`id`, `nis`, `nama`, `kelas`, `level`) VALUES
 (323, '202110133', 'RAIHAN ', 'X TKJ 3', 'user'),
 (324, '202110134', 'RIDWAN HAFIZ', 'X TKJ 3', 'user'),
 (325, '202110135', 'RIFKI RAMADHAN', 'X TKJ 3', 'user'),
-(326, '202110136', 'SYARIEF MAULANA PUTRA', 'X TKJ 3', 'user');
+(326, '202110136', 'SYARIEF MAULANA PUTRA', 'X TKJ 3', 'user'),
+(327, '963258741', 'OPERATOR', '', 'admin');
 
 --
 -- Indexes for dumped tables
